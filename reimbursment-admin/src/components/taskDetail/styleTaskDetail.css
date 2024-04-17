@@ -1,0 +1,50 @@
+.invoicefig {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    
+}
+
+.sourceref {
+    padding-left: 1rem;
+    width: 90%;
+    height: 100%;
+}
+
+.targetdiv {
+    position: absolute;
+    pointer-events: none;
+    opacity: 1;
+    padding-left: 1rem;
+    border: 1px solid lightgray;
+    background-color: white;
+    background-repeat: no-repeat;
+}
+
+.invoicefields {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.invoicefields header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;    
+    
+}
+
+.inputcontainer {
+    display: flex;
+    padding-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed black;
+}
+
+.inputcontainer input{
+    width: 50%;
+    max-height: 2rem;
+    border: 2px solid green;
+    border-radius: 10px;
+    text-align: center;
+}
