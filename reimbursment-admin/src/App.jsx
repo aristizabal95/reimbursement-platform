@@ -1,15 +1,24 @@
-import TaskList from './components/TaskList'
-import NavBar from './components/nav/NavBar'
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements
+} from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import MainLayout from './Layouts/MainLayout'
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+  <Route path='/' element={<MainLayout></MainLayout>}>
+    <Route path='/task' element={<HomePage></HomePage>}></Route>
+  </Route>
+  )
+)
 
 const App = () => {
   
-  return (
-    <>
-    <NavBar></NavBar>
-    <TaskList></TaskList>
-    </>
-    
-  )
+  return <RouterProvider router={router}></RouterProvider>
+
 }
 
 export default App
