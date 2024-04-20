@@ -1,0 +1,9 @@
+.reimbform {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.reimbform p {
+    display: flex;
+    justify-content: space-evenly;
+}

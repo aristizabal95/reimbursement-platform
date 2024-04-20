@@ -1,11 +1,9 @@
 import React from 'react'
-import Reimbursment from '../components/reimbursments/Reimbursment'
+import ReimbursmentList from '../components/reimbursmentList/ReimbursmentList'
+
 
 const HomePage = () => {
-    
-    const info = {event_name: 'Nerdapalooza', date: '2024-01-01', status: 'draft', total_amount: 200, currency: 'USD'};
-
-    return <Reimbursment info={info}></Reimbursment>
+    return <ReimbursmentList></ReimbursmentList>
 }
 
 export default HomePage

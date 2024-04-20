@@ -9,3 +9,5 @@ export const fetchData = async (path, setter) => {
         console.log(`Error while loading data from ${path}`, error)
     }
 }
+
+
