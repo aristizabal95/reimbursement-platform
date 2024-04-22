@@ -80,14 +80,15 @@ async def add_event_list(form: req.AddEvent):
     AVAILABLE_USERS = {'ago1'}
     if form.user_id not in AVAILABLE_USERS:
         return "Get the fuck out of here"
-    user_events = myEvents[form.user_id]
+    user_events = set([el.event_id for el in myEvents[form.user_id]])
     if form.event_id in user_events:
-        return "Yo already have this event! Fool me once"
+        return "You already have this event! Fool me once.."
     #TODO: This should be a call to the database.
     print(form.event_id)
     event_details = [el for el in available_event_list if el['event_id'] == form.event_id][0]
     newUserEvent = {
         'id': form.user_id + '_' + form.event_id,
+        'event_id': form.event_id,
         'event_name': event_details['event_name'], 
         'create_date': datetime.fromtimestamp(form.create_date/1000).strftime(FORMAT_DATES),
         'status': 'draft',

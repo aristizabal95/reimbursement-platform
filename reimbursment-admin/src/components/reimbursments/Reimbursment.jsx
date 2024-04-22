@@ -7,7 +7,7 @@ const Reimbursment = ({info = {}, setReimbClick}) => {
     <section className='reimbsection' onClick={setReimbClick}>
         <header className='reimbheader'>
             <h3>{info.event_name}</h3>
-            <div>{info.date}</div>
+            <div>{info.create_date}</div>
         </header>
         <section className='maininfo'>
             <div>{info.status}</div>
