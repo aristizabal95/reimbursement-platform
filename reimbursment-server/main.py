@@ -5,7 +5,7 @@ import DTO.response as resp
 import DTO.request as req
 from datetime import datetime
 
-FORMAT_DATES = "%Y-%m-%d %H:%M:%S"
+FORMAT_DATES = "%b, %d %H:%M"
 
 info = [
         {"id": "ff20-32-344-201", "name": "Andres F Gonzalez", "date": "2024-01-18", "concept": "Mental Health", "amount": 180000, "currency": "COP"},
