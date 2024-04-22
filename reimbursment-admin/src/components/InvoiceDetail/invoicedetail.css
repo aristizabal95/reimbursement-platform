@@ -1,0 +1,5 @@
+.invoice {
+    display: flex;
+    flex-flow: column;
+}
+

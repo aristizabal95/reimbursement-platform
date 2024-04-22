@@ -1,0 +1,23 @@
+.invoiceForm {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    margin: .5rem;
+}
+
+.image-upload {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px;
+    border: 3px solid black;
+    width: 80%;
+    height: 30vh;
+    cursor: pointer;
+}
+
+.image-upload>input {
+    display: none;
+}
