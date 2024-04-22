@@ -1,12 +1,13 @@
 import React from 'react'
 import './styleNav.css'
+import {Link} from "react-router-dom"
 
 const NavBar = () => {
   return (
     <ul className='navheader'>
-        <li><a href="/">home</a></li>
-        <li><a href="/task">tasks</a></li>
-        <li><a href="/events">events</a></li>
+        <li><Link to="/"> Home </Link></li>
+        <li><Link to="/task"> Task </Link></li>
+        <li><Link to="/events"> Events </Link></li>
     </ul>
   )
 }
