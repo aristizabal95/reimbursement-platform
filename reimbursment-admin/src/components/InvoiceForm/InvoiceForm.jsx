@@ -8,11 +8,7 @@ const InvoiceForm = ({click = false, submitFun}) => {
                 <label htmlFor="file-input">
                     <p> Upload File</p>
                 </label>
-                <input id="file-input" type="file"/>
-                <label className="file-upload" htmlFor="camera-input">
-                    <p>Capture from camera</p>                    
-                </label>
-                <input id="camera-input" type="file" capture="user"></input>
+                <input id="file-input" type="file" accept='image/*'/>
             </div>
             <p className='invoice-question'>
                 <lable htmlFor="amnt">Amount</lable>
