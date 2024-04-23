@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Reimbursment from '../reimbursments/Reimbursment';
 import NewReimbursment from '../newReimbursment/NewReimbursment';
 import ReimbForm from '../ReimbForm/ReimbForm';
+import './reimbursmentList.css'
+
 import { fetchData } from '../utils';
 
 const ReimbursmentList = () => {
@@ -45,7 +47,7 @@ const ReimbursmentList = () => {
     }
 
     return (
-        <>
+        <section className='reimb-home'>
         <section style={{display: clickNew ? 'none': ''}}>
         {
             (myEvents.length != 0 ? myEvents.map( el => {
@@ -56,7 +58,7 @@ const ReimbursmentList = () => {
         <NewReimbursment clickFun = {clickPlus}></NewReimbursment>
         <ReimbForm submitFun={reloadAndSubmit} display={clickNew} eventList={availableEvents}>
         </ReimbForm>
-        </>
+        </section>
     )
   
 }

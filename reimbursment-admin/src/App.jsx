@@ -14,7 +14,7 @@ const router = createBrowserRouter(
   <Route path='/' element={<MainLayout></MainLayout>}>
     <Route path='/' element={<HomePage></HomePage>}></Route>
     <Route path='/task' element={<ApprovePage></ApprovePage>}></Route>
-    <Route path='/invoice-detail/:invoiceId' element={<InvoiceDetail></InvoiceDetail>}></Route>
+    <Route path='/invoice-detail/:reimbursmentId' element={<InvoiceDetail></InvoiceDetail>}></Route>
 
   </Route>
   )
