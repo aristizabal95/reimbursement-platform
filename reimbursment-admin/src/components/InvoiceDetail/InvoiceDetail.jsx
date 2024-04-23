@@ -2,9 +2,13 @@ import React, { useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import './invoicedetail.css'
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
+import { useParams } from 'react-router-dom';
 
 const InvoiceDetail = () => {
     const [click, setClick] = useState(false);
+
+    const {invoiceId} = useParams();
+    console.log(invoiceId);
 
     const submitFun = (e) => {
         //Send form to API
@@ -20,7 +24,7 @@ const InvoiceDetail = () => {
 
   return (
     <section className='invoice'>
-        <button onClick = {() => setClick(!click) }className="newinv">
+        <button onClick = {() => setClick(!click) } className="newinv">
             <FaPlus size={25}></FaPlus>
         </button>
         <InvoiceForm submitFun={submitFun} click={click}></InvoiceForm>

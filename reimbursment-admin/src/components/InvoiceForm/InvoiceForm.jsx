@@ -11,15 +11,15 @@ const InvoiceForm = ({click = false, submitFun}) => {
                 <input id="file-input" type="file" accept='image/*'/>
             </div>
             <p className='invoice-question'>
-                <lable htmlFor="amnt">Amount</lable>
+                <label htmlFor="amnt">Amount</label>
                 <input type="tel" id="amnt" name="annt" required></input>
             </p>
             <p className='invoice-question'>
-                <lable htmlFor="vendor">Vendor</lable>
+                <label htmlFor="vendor">Vendor</label>
                 <input type="text" id="vendor" name="vendor" required></input>
             </p>
             <p className='invoice-question'>
-                <lable htmlFor="currency">Currency</lable>
+                <label htmlFor="currency">Currency</label>
                 <select name='currency' id='currency'>
                     <option value='COP'>COP</option>
                     <option value='USD' selected="selected">USD</option>

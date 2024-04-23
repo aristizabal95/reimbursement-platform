@@ -1,12 +1,12 @@
 import React from 'react'
 import './styleReimbursment.css'
+import {Link} from "react-router-dom"
 
 
 const Reimbursment = ({info = {}, setReimbClick}) => {
   return (
-    <a href="">
+    <Link className="linkstyle" to={`/invoice-detail/${info.id}`}>
     <section className='reimbsection' onClick={setReimbClick}>
-      
         <header className='reimbheader'>
             <h3>{info.event_name}</h3>
             <div>{info.create_date}</div>
@@ -16,7 +16,7 @@ const Reimbursment = ({info = {}, setReimbClick}) => {
             <div><span>{`$${info.total_amount.toLocaleString()} ${info.currency}`}</span></div>
         </section>
     </section>
-    </a>
+    </Link>
   )
 }
 
