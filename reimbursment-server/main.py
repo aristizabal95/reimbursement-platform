@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 import DTO.response as resp
 import DTO.request as req
 from datetime import datetime
+from uuid import uuid1
+
 
 FORMAT_DATES = "%b, %d %H:%M"
 
@@ -38,7 +40,9 @@ available_event_list = [
     {'event_id': 'men-hel', 'event_name': 'Mental Health','create_date': '2024-01-01'},
     {'event_id': 'educ-may', 'event_name': 'Education','create_date': '2024-01-01'},
     ]
-    
+
+reimbursment_db = {}
+
     
 app = FastAPI()
 app.add_middleware(
@@ -84,7 +88,6 @@ async def add_event_list(form: req.AddEvent):
     if form.event_id in user_events:
         return "You already have this event! Fool me once.."
     #TODO: This should be a call to the database.
-    print(form.event_id)
     event_details = [el for el in available_event_list if el['event_id'] == form.event_id][0]
     newUserEvent = {
         'id': form.user_id + '_' + form.event_id,
@@ -96,4 +99,21 @@ async def add_event_list(form: req.AddEvent):
         'currency': form.default_currency}
     myEvents[form.user_id].append(resp.UserEvent(**newUserEvent))
     return "OK"
+
+@app.get('/invoice-list/{userId}')
+async def invoice_list(userId: str):
+    #TODO: Check if user is allow to create/view this reimbursment list!!
+    print(userId)
+    return reimbursment_db.get(userId, [])
+
+
+@app.post('/new-invoice')
+async def new_invoice(form: req.InvoiceDetail):
+    form.invoice_id = uuid1().__str__()
+    # TODO: Fix this is horrible!!
+    if 'ago1' in reimbursment_db:
+        reimbursment_db['ago1'].append(form)
+    else:
+        reimbursment_db['ago1'] = [form]
+    return JSONResponse("OK")
 

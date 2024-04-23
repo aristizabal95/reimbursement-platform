@@ -6,3 +6,9 @@ class AddEvent(BaseModel):
     create_date: int #UTC timestamp!
     default_currency: str
 
+class InvoiceDetail(BaseModel):
+    reimbursment_id: str 
+    invoice_id: str = None
+    amnt: float
+    vendor: str
+    currency: str
