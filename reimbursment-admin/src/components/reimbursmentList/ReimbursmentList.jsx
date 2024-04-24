@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Reimbursment from '../reimbursments/Reimbursment';
-import NewReimbursment from '../newReimbursment/NewReimbursment';
+import { FaPlus } from "react-icons/fa6";
 import ReimbForm from '../ReimbForm/ReimbForm';
 import './reimbursmentList.css'
 
@@ -42,10 +42,6 @@ const ReimbursmentList = () => {
         setClickNew(!clickNew);
     }
 
-    const clickPlus = (e) => {
-        setClickNew(!clickNew);
-    }
-
     return (
         <section className='reimb-home'>
         <section style={{display: clickNew ? 'none': ''}}>
@@ -55,7 +51,9 @@ const ReimbursmentList = () => {
             }) : <></>)
         }
         </section>
-        <NewReimbursment clickFun = {clickPlus}></NewReimbursment>
+        <button className="newreimb" onClick={() => setClickNew(!clickNew)}>
+            <FaPlus size={25}></FaPlus>
+        </button>
         <ReimbForm submitFun={reloadAndSubmit} display={clickNew} eventList={availableEvents}>
         </ReimbForm>
         </section>
