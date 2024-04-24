@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Reimbursment from '../reimbursments/Reimbursment';
 import { FaPlus } from "react-icons/fa6";
-import ReimbForm from '../ReimbForm/ReimbForm';
+
 import './reimbursmentList.css'
 
 import { fetchData } from '../utils';
+import EventForm from '../EventForm/EventForm';
 
 const ReimbursmentList = () => {
     const [clickNew, setClickNew] = useState(false);
@@ -53,8 +54,8 @@ const ReimbursmentList = () => {
         <button className="newreimb" onClick={() => setClickNew(!clickNew)}>
             <FaPlus size={25}></FaPlus>
         </button>
-        <ReimbForm submitFun={reloadAndSubmit} display={clickNew} eventList={availableEvents}>
-        </ReimbForm>
+        <EventForm submitFun={reloadAndSubmit} display={clickNew} eventList={availableEvents}>
+        </EventForm>
         </section>
     )
   

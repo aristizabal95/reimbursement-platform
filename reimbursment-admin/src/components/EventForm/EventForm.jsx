@@ -1,7 +1,7 @@
 import React from 'react'
-import './reimbform.css'
+import './eventform.css'
 
-const ReimbForm = ({display = true, eventList = [{}], submitFun}) => {
+const EventForm = ({display = true, eventList = [{}], submitFun}) => {
     return (
     <form onSubmit={submitFun} method="POST" className='reimbform' style={{display: display ? '' : 'none'}}>
     <ul className='select-event'>
@@ -22,4 +22,4 @@ const ReimbForm = ({display = true, eventList = [{}], submitFun}) => {
   )
 }
 
-export default ReimbForm
+export default EventForm
