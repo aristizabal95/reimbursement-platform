@@ -3,23 +3,41 @@
     flex-flow: column nowrap;
 }
 
-.reimbform ul {
+.select-event {
     display: flex;
     flex-flow: column nowrap;
-    margin: 1rem;
-    flex-grow: 2;
+    list-style: none;
+    width: 100%;
+    padding: 1rem;
 }
 
-.event-option {
+.select-event li{
     display: flex;
-    flex-flow: row nowrap;
-    padding: 1.2rem;
-    border: none;
-    border-bottom: 2px dashed black;
-    text-align: center;
-    background-color: white;
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    gap: 1rem;
+    align-items: center;
 }
 
+.select-event li label {
+    width: 100%;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.select-event li:hover,
+.select-event input:checked ~ label {
+    border-bottom: 2px dashed black;
+}
+
+.select-event input:focus ~label {
+    border-bottom: 2px dashed black;
+}
+
+.select-event input[type="radio"] {
+    display: none;
+}
 
 .submit-event {
     display: flex;
