@@ -3,7 +3,31 @@
     flex-flow: column nowrap;
 }
 
-.reimbform p {
+.reimbform ul {
     display: flex;
-    justify-content: space-evenly;
+    flex-flow: column nowrap;
+    margin: 1rem;
+    flex-grow: 2;
+}
+
+.event-option {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 1.2rem;
+    border: none;
+    border-bottom: 2px dashed black;
+    text-align: center;
+    background-color: white;
+}
+
+
+.submit-event {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid black;
 }

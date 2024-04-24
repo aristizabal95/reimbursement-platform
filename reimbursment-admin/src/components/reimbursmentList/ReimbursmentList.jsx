@@ -23,6 +23,7 @@ const ReimbursmentList = () => {
 
     const reloadAndSubmit = (e) => {
         e.preventDefault();
+        
         const data = e.target;
         fetch('/api/add-event', {
             method: 'POST',
@@ -32,9 +33,7 @@ const ReimbursmentList = () => {
             },
             body: JSON.stringify({
                 event_id: data.event.value,
-                user_id: userId,
-                create_date: new Date().getTime(),
-                default_currency: data.currency.value
+                user_id: userId
             })
         })
         .then( r => r.json());

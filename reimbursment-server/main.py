@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import DTO.response as resp
 import DTO.request as req
-from datetime import datetime
+from datetime import datetime, UTC
 from uuid import uuid1
 
 
@@ -81,6 +81,7 @@ async def my_event_list(userId: str):
 @app.post('/add-event')
 async def add_event_list(form: req.AddEvent):
     #Check if there is an event with that id, if not proceed!
+    print(form)
     AVAILABLE_USERS = {'ago1'}
     if form.user_id not in AVAILABLE_USERS:
         return "Get the fuck out of here"
@@ -90,13 +91,14 @@ async def add_event_list(form: req.AddEvent):
     #TODO: This should be a call to the database.
     event_details = [el for el in available_event_list if el['event_id'] == form.event_id][0]
     newUserEvent = {
-        'id': form.user_id + '_' + form.event_id,
+        'id': uuid1().__str__(),
         'event_id': form.event_id,
         'event_name': event_details['event_name'], 
-        'create_date': datetime.fromtimestamp(form.create_date/1000).strftime(FORMAT_DATES),
+        'create_date': datetime.now(UTC).strftime(FORMAT_DATES),
         'status': 'draft',
         'total_amount': 0,
-        'currency': form.default_currency}
+        'currency': 'USD' ## This should in the db or in the event..
+        }
     myEvents[form.user_id].append(resp.UserEvent(**newUserEvent))
     return "OK"
 
