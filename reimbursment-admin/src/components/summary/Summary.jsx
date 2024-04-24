@@ -41,7 +41,7 @@ const Summary = ({detail = []}) => {
         ): <></>)
         }
         {TotalElement}
-        <input className='approved' type='submit'></input>
+        <button className="approve" type="submit">Approve</button>
     </form>
   )
 }
