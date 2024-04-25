@@ -23,25 +23,15 @@ const InvoiceDetail = () => {
         e.preventDefault();
         const formData = new FormData();
         const data = e.target;
-        formData.append( 'info',
-            JSON.stringify({
-                reimbursment_id: reimbursmentId,
-                amnt: data.amnt.value,
-                vendor: data.vendor.value,
-                currency: data.currency.value
-            })
-        );
-        formData.append('invoice', data['invoice-file'].files[0])
-        console.log(formData);
-        
+        formData.append("reimbursment_id", reimbursmentId);
+        formData.append("amnt", data.amnt.value);
+        formData.append("vendor", data.vendor.value);
+        formData.append("currency", data.currency.value);
+        formData.append('invoice', data['invoice-file'].files[0]);
         await fetch('/api/new-invoice', {
             method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data'
-            },
             body: formData
-        }).then( r => r.json());;
+        })
         setClick(!click);
         fetchData(`/api/invoice-list/${userId}`, setInvoiceList)
     };

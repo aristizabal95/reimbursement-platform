@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, File, Request, Form
+from typing import Annotated
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import DTO.response as resp
@@ -53,6 +54,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.exception_handler(Exception)
+async def unicorn_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=418,
+        content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
+    )
 
 @app.get("/task-list")
 async def task_list():
@@ -81,7 +88,6 @@ async def my_event_list(userId: str):
 @app.post('/add-event')
 async def add_event_list(form: req.AddEvent):
     #Check if there is an event with that id, if not proceed!
-    print(form)
     AVAILABLE_USERS = {'ago1'}
     if form.user_id not in AVAILABLE_USERS:
         return "Get the fuck out of here"
@@ -105,17 +111,23 @@ async def add_event_list(form: req.AddEvent):
 @app.get('/invoice-list/{userId}')
 async def invoice_list(userId: str):
     #TODO: Check if user is allow to create/view this reimbursment list!!
-    print(userId)
     return reimbursment_db.get(userId, [])
 
 
 @app.post('/new-invoice')
-async def new_invoice(form: req.InvoiceDetail):
-    form.invoice_id = uuid1().__str__()
-    # TODO: Fix this is horrible!!
-    if 'ago1' in reimbursment_db:
-        reimbursment_db['ago1'].append(form)
-    else:
-        reimbursment_db['ago1'] = [form]
-    return JSONResponse("OK")
+async def new_invoice(
+    reimbursment_id: Annotated[str, Form()],
+    amnt: Annotated[str, Form()],
+    vendor: Annotated[str, Form()],
+    currency: Annotated[str, Form()],
+    invoice: Annotated[str, File()]):
+    return "OK"
+    if False:
+        form.invoice_id = uuid1().__str__()
+        print(form.invoice.filename)
+        if 'ago1' in reimbursment_db:
+            reimbursment_db['ago1'].append(form)
+        else:
+            reimbursment_db['ago1'] = [form]
+        return JSONResponse("OK")
 
