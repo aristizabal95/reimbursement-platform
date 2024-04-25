@@ -14,3 +14,7 @@ class NewInvoice:
     vendor: str = Form(...)
     currency: str = Form(...)
     invoice: UploadFile = File(...)
+
+    def dict_no_file(self):
+        d = self.__dict__
+        return {k: v for k, v in d.items() if k != 'invoice'}

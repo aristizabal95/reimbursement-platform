@@ -12,7 +12,6 @@ const InvoiceForm = ({click = false, submitFun}) => {
             setImagePath(src);
         }, false);
         reader.readAsDataURL(file);
-        setToggleLabel(!toggleLabel);
     }    
 
     return (

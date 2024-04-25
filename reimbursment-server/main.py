@@ -115,13 +115,11 @@ async def invoice_list(userId: str):
 
 @app.post('/new-invoice')
 async def new_invoice(form: req.NewInvoice = Depends()):
-    return "OK"
-    if False:
-        form.invoice_id = uuid1().__str__()
-        print(form.invoice.filename)
-        if 'ago1' in reimbursment_db:
-            reimbursment_db['ago1'].append(form)
-        else:
-            reimbursment_db['ago1'] = [form]
-        return JSONResponse("OK")
+    form.invoice_id = uuid1().__str__()
+    print(form.invoice.filename)
+    if 'ago1' in reimbursment_db:
+        reimbursment_db['ago1'].append(form.dict_no_file())
+    else:
+        reimbursment_db['ago1'] = [form.dict_no_file()]
+    return JSONResponse("OK")
 
