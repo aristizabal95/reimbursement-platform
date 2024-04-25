@@ -12,7 +12,6 @@
     justify-content: space-evenly;
     align-items: center;
     margin: 10px;
-    border: 3px solid black;
     width: 80%;
     height: 30vh;
     cursor: pointer;
@@ -20,4 +19,35 @@
 
 .image-upload>input {
     display: none;
+}
+
+.invoice-preview[src=""] {
+    display: none;
+}
+
+.invoice-preview {
+    border: none;
+    width: 90%;
+    height: 100%;
+}
+
+.invoice-question {
+    display: flex;
+    padding: 1rem;
+    margin: .5rem;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.submit-expense {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid black;
 }
