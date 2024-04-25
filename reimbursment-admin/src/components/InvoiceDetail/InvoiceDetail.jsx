@@ -21,19 +21,26 @@ const InvoiceDetail = () => {
     const submitFun = async (e) => {
         //Send form to API
         e.preventDefault();
+        const formData = new FormData();
         const data = e.target;
-        await fetch('/api/new-invoice', {
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        formData.append( 'info',
+            JSON.stringify({
                 reimbursment_id: reimbursmentId,
                 amnt: data.amnt.value,
                 vendor: data.vendor.value,
                 currency: data.currency.value
             })
+        );
+        formData.append('invoice', data['invoice-file'].files[0])
+        console.log(formData);
+        
+        await fetch('/api/new-invoice', {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formData
         }).then( r => r.json());;
         setClick(!click);
         fetchData(`/api/invoice-list/${userId}`, setInvoiceList)
