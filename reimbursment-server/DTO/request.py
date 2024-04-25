@@ -1,13 +1,10 @@
 from dataclasses import dataclass
 from pydantic import BaseModel
 from fastapi import UploadFile, File, Form
-from typing import Annotated
 
 class AddEvent(BaseModel):
     event_id: str
     user_id: str
-
-
 
 @dataclass
 class NewInvoice:
