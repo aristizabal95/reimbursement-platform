@@ -1,15 +1,19 @@
+from dataclasses import dataclass
 from pydantic import BaseModel
-from fastapi import UploadFile, File
+from fastapi import UploadFile, File, Form
 from typing import Annotated
 
 class AddEvent(BaseModel):
     event_id: str
     user_id: str
 
-class NewInvoice(BaseModel):
-    reimbursment_id: str 
+
+
+@dataclass
+class NewInvoice:
+    reimbursment_id: str = Form(...)
     invoice_id: str = None
-    amnt: float
-    vendor: str
-    currency: str
-    invoice: Annotated[UploadFile, File()] = None
+    amnt: str = Form(...)
+    vendor: str = Form(...)
+    currency: str = Form(...)
+    invoice: UploadFile = File(...)

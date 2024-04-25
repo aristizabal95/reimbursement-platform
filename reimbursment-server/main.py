@@ -1,5 +1,4 @@
-from fastapi import FastAPI, File, Request, Form
-from typing import Annotated
+from fastapi import FastAPI, File, Request, Depends
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import DTO.response as resp
@@ -115,12 +114,7 @@ async def invoice_list(userId: str):
 
 
 @app.post('/new-invoice')
-async def new_invoice(
-    reimbursment_id: Annotated[str, Form()],
-    amnt: Annotated[str, Form()],
-    vendor: Annotated[str, Form()],
-    currency: Annotated[str, Form()],
-    invoice: Annotated[str, File()]):
+async def new_invoice(form: req.NewInvoice = Depends()):
     return "OK"
     if False:
         form.invoice_id = uuid1().__str__()

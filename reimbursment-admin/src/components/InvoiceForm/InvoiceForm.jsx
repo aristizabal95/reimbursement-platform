@@ -22,7 +22,7 @@ const InvoiceForm = ({click = false, submitFun}) => {
                 <label htmlFor="invoice-file">
                     <p> Upload File</p>
                 </label>
-                <input id="invoice-file" type="file" accept='image/*' onChange={handleFileSelect}/>
+                <input id="invoice-file" type="file" accept='image/*' onChange={handleFileSelect} required/>
             </div>
             <p className='invoice-question'>
                 <label htmlFor="vendor">Vendor</label>
