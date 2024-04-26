@@ -7,7 +7,7 @@ import TaskCarousel from './taskCarousel/TaskCarousel.jsx';
 const TaskList = () => {
 
     const [info, setInfo] = useState([]);
-    const [reimbId, SetReimbId] = useState('1');
+    const [reimbId, SetReimbId] = useState('all');
     const [detail, setDetail] = useState([]);
     
     useEffect( () => {
@@ -22,11 +22,20 @@ const TaskList = () => {
         }
     }, [reimbId]);
 
+    const focusTask = (el) => {
+        if (el.id == reimbId) {
+            SetReimbId("all");
+        } else {
+            SetReimbId(el.id);
+            console.log(reimbId);
+        }
+    }
+
     return (
         <section className='mainpanel'>
             <section className='tasklist'>
                 {info.map( (el) => (
-                    <Task key= {el.id} info= {el} setReimbClick={() => SetReimbId(el.id)}></Task>
+                    <Task key= {el.id} info= {el} setReimbClick={() => focusTask(el)} selectedId={reimbId}></Task>
                 ))}
             </section>
         <TaskCarousel detail={detail}></TaskCarousel>

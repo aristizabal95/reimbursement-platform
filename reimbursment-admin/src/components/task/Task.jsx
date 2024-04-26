@@ -2,10 +2,10 @@ import React from 'react'
 import './styleTask.css'
 
 
-const Task = ({info = {}, setReimbClick}) => {
-
+const Task = ({info = {}, setReimbClick, selectedId}) => {
   return (
-    <section className='tasksection' onClick={setReimbClick}>
+    <section className='tasksection' onClick={setReimbClick} 
+    style={{display: (selectedId == 'all' | selectedId == info.id) ? "flex":"none"}}>
         <header className='taskheader'>
             <h3>{info.name}</h3>
             <div>{info.date}</div>
