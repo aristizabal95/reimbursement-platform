@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 
 export const fetchData = async (path, setter) => {
     try {
@@ -9,5 +8,5 @@ export const fetchData = async (path, setter) => {
         console.log(`Error while loading data from ${path}`, error)
     }
 }
-
+ 
 

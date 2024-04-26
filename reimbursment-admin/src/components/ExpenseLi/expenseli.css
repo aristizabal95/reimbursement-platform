@@ -1,0 +1,12 @@
+.expenseli {
+    display: flex;
+    padding: 1rem;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expenseli span {
+    color: green;
+    font-weight: bolder;
+}

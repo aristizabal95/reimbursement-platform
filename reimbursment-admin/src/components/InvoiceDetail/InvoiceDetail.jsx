@@ -4,6 +4,7 @@ import './invoicedetail.css'
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
 import { useParams } from 'react-router-dom';
 import {fetchData} from '../utils.js'
+import ExpenseLi from '../ExpenseLi/ExpenseLi.jsx';
 
 const InvoiceDetail = () => {
     const [click, setClick] = useState(false);
@@ -38,14 +39,11 @@ const InvoiceDetail = () => {
 
   return (
     <section className='invoice'>
-        {invoiceList.length != 0 ? invoiceList.map( (el) => {
-            return (
-                <div key={el.invoice_id}>
-                    <h1>{el.vendor}</h1>
-                    <p>{el.amnt} <span>{el.currency}</span></p>
-                </div>
-            );
-        }) : <></>}
+        <ul>
+        {invoiceList.length != 0 ? 
+        invoiceList.map( (el) => <ExpenseLi expense={el}></ExpenseLi>) :<></>
+        }
+        </ul>
         <button onClick = {() => setClick(!click) } className="newinv">
             <FaPlus size={25}></FaPlus>
         </button>

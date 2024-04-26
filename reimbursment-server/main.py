@@ -122,4 +122,3 @@ async def new_invoice(form: req.NewInvoice = Depends()):
     else:
         reimbursment_db['ago1'] = [form.dict_no_file()]
     return JSONResponse("OK")
-
