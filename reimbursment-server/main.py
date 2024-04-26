@@ -12,14 +12,18 @@ FORMAT_DATES = "%b, %d %H:%M"
 info = [
         {"id": "ff20-32-344-201", "name": "Andres F Gonzalez", "date": "2024-01-18", "concept": "Mental Health", "amount": 180000, "currency": "COP"},
         {"id": "ff20-32-344-202", "name": "Alejandro Aristizabal", "date": "2024-01-13", "concept": "Nerdapalooza", "amount": 320000, "currency": "COP"},
-        {"id": "ff20-32-344-203", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"}
+        {"id": "ff20-32-344-203", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
+        {"id": "ff20-32-344-204", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
+        {"id": "ff20-32-344-205", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
+        {"id": "ff20-32-344-206", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
+        {"id": "ff20-32-344-207", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"}
     ]    
 
 detail = {
     "ff20-32-344-201": [
         {"id": 1, "txnDate": "2024-01-14", "type": "MEALS INTERNAL", "detail": "Breakfast", "vendor": "Tofu Palace", "amnt": 8300, "currency": "COP", "invoice": "/path??"},
         {"id": 2, "txnDate": "2024-01-12", "type": "MEALS INTERNAL", "detail": "Lunch", "vendor": "Brocoli", "amnt": 38300, "currency": "COP", "invoice": "/path??"},
-        {"id": 3, "txnDate": "2024-01-10", "type": "MEALS INTERNAL", "detail": "Dinner", "vendor": "Veggy Love", "amnt": 33000, "currency": "COP", "invoice": "/path??"}
+        {"id": 3, "txnDate": "2024-01-10", "type": "MEALS INTERNAL", "detail": "Dinner", "vendor": "Crepes and waffles", "amnt": 33000, "currency": "COP", "invoice": "/path??"}
     ],
     "ff20-32-344-202":
     [

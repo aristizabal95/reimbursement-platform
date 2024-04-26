@@ -3,7 +3,7 @@ import TaskDetail from '../taskDetail/TaskDetail';
 import './taskcarousel.css'
 import Summary from '../summary/Summary';
 
-const TaskCarousel = ({detail = []}) => {
+const TaskCarousel = ({detail = [], onSubmit}) => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const nextSlide = () => {
@@ -22,7 +22,7 @@ const TaskCarousel = ({detail = []}) => {
             <button onClick={prevSlide} className='btn prev'>&lt;</button>
             <TaskDetail detail={detail[activeIndex]}></TaskDetail>
             <button onClick={nextSlide} className='btn next'>&gt;</button>
-            <Summary detail={detail}></Summary>
+            <Summary onSubmit={onSubmit} detail={detail}></Summary>
         </section>
     
     return (detail.length != 0 ? carousel : <></>);

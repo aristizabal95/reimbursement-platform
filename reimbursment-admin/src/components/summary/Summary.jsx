@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './summary.css'
 
-const Summary = ({detail = []}) => {
+const Summary = ({detail = [], onSubmit}) => {
     const defaultTotal = (detail.length != 0 ? detail.reduce((acc, v) => acc + v.amnt, 0): 0);
     var amountsInit = (detail.length != 0 ? detail.map( el => ({k: `input${el.id}`, v: el.amnt + 0})): [{}]);
     const [amounts, setAmounts] = useState(amountsInit)
@@ -22,18 +22,17 @@ const Summary = ({detail = []}) => {
 
     useEffect( () => {
         const newTotal = amounts.reduce((acc, el) => acc + el.v, 0)
-        console.log(amounts);
         setTotal(newTotal);
     }, [amounts])
 
     return (
-    <form className='summaryform'>
+    <form className='summaryform' onSubmit={onSubmit}>
         {
         (detail.length != 0 ? detail.map( (el) => {
             return (
                 <div className='summaryitem' id={`summary${el.id}`}>
                     <p>{el.vendor}</p>
-                    <input id={`input${el.id}`} defaultValue={el.amnt} onChange={changeInput}></input>
+                    <input type="tel" id={`input${el.id}`} defaultValue={el.amnt} onChange={changeInput}></input>
                     <span>{el.currency}</span>
                 </div>
             );

@@ -27,8 +27,12 @@ const TaskList = () => {
             SetReimbId("all");
         } else {
             SetReimbId(el.id);
-            console.log(reimbId);
         }
+    }
+
+    const approve = (e) => {
+        e.preventDefault();
+        SetReimbId("all");
     }
 
     return (
@@ -38,7 +42,7 @@ const TaskList = () => {
                     <Task key= {el.id} info= {el} setReimbClick={() => focusTask(el)} selectedId={reimbId}></Task>
                 ))}
             </section>
-        <TaskCarousel detail={detail}></TaskCarousel>
+        <TaskCarousel onSubmit={approve} detail={detail}></TaskCarousel>
         </section>
   )
 }
