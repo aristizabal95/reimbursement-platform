@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, Request, Depends
 from contextlib import asynccontextmanager
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn.config
 import DTO.response as resp
 from asgi_correlation_id import CorrelationIdMiddleware
 import DTO.request as req
@@ -94,3 +95,8 @@ async def new_invoice(form: req.NewInvoice = Depends()):
     form.invoice_id = uuid1().__str__()
     # TODO: insert into table, and image into an S3, I guess!
     return JSONResponse("OK")
+
+import uvicorn
+
+if __name__ == '__main__':
+    uvicorn.run(app, port=8080, reload=True, log_config="config.yml")
