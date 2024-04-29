@@ -2,28 +2,27 @@ version: 1
 filters:
   correlation_id:
     (): asgi_correlation_id.CorrelationIdFilter
-    uuid_length: 16
-    default_value: -
+    uuid_length: 32
 formatters:
   json:
-    class: 
-    format: '[%(correaltion_id)s] %(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    datefmt: '%Y-%m-%d %H:%M:%S'
+    class: pythonjsonlogger.jsonlogger.JsonFormatter
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
 
 handlers:
-    console:
-        class: logging.StreamHandler
-        level: ERROR
-        filter: [correlation_id]
-        formatter: json
-        stream: ext://sys.stdout
-    file:
-        class: logging.FileHandler
-        level: INFO
-        filter: [correlation_id]
-        formatter: json
-        filename: backend.log
-        mode: a
+  console:
+    class: logging.StreamHandler
+    level: ERROR
+    filters: [correlation_id]
+    formatter: json
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    level: DEBUG
+    filters: [correlation_id]
+    formatter: json
+    filename: backend.log
+    mode: a
 root:
-    level: INFO
-    handlers: [console, file]
+  level: DEBUG
+  handlers: [console, file]

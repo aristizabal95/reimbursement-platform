@@ -6,6 +6,7 @@ import uvicorn.config
 import DTO.response as resp
 from asgi_correlation_id import CorrelationIdMiddleware
 from asgi_correlation_id.middleware import is_valid_uuid4
+from asgi_correlation_id import correlation_id
 import DTO.request as req
 import psycopg2
 import os
@@ -18,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 db = psycopg2.connect(user=os.environ["REIMBURSMENT_DB"],
                  password=os.environ["REIMBURSMENT_DB_PASS"],
+                 dbname='postgres',
                  host='reimbursement-platform.cphyvakixbqr.us-east-1.rds.amazonaws.com',
                  port=5432)
 
@@ -48,6 +50,7 @@ async def lifespan(app: FastAPI):
 
 @app.exception_handler(Exception)
 async def unicorn_exception_handler(request: Request, exc: Exception):
+    logger.error(exc.__str__)
     return JSONResponse(
         status_code=418,
         content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
@@ -107,4 +110,6 @@ async def new_invoice(form: req.NewInvoice = Depends()):
 import uvicorn
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=8080, reload=True, log_config="config.yml")
+    config = uvicorn.Config("main:app", port=8080, log_level="info", log_config="config.yml")
+    server = uvicorn.Server(config)
+    server.run()
