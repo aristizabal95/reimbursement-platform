@@ -2,7 +2,7 @@ version: 1
 filters:
   correlation_id:
     (): asgi_correlation_id.CorrelationIdFilter
-    uuid_length: 8
+    uuid_length: 16
     default_value: -
 formatters:
   json:

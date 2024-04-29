@@ -5,10 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn.config
 import DTO.response as resp
 from asgi_correlation_id import CorrelationIdMiddleware
+from asgi_correlation_id.middleware import is_valid_uuid4
 import DTO.request as req
 import psycopg2
 import os
-from uuid import uuid1
+from uuid import uuid4
 import logging
 
 FORMAT_DATES = "%b, %d %H:%M"
@@ -28,7 +29,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(CorrelationIdMiddleware)
+
+app.add_middleware(
+    CorrelationIdMiddleware,
+    header_name='X-Request-ID',
+    update_request_header=True,
+    generator=lambda: uuid4().hex,
+    validator=is_valid_uuid4,
+    transformer=lambda a: a,
+)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -92,8 +102,6 @@ async def invoice_list(userId: str):
 
 @app.post('/new-invoice')
 async def new_invoice(form: req.NewInvoice = Depends()):
-    form.invoice_id = uuid1().__str__()
-    # TODO: insert into table, and image into an S3, I guess!
     return JSONResponse("OK")
 
 import uvicorn
