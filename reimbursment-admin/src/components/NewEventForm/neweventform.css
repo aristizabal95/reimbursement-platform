@@ -1,0 +1,25 @@
+.create-event{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-event p{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new-event-page {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-event-button {
+    font-size: 10rem;
+    margin: 1rem;
+    padding: 1rem;
+}

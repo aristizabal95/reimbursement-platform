@@ -7,7 +7,7 @@ const NavBar = () => {
     <ul className='navheader'>
         <li><Link to="/"> Home </Link></li>
         <li><Link to="/task"> Task </Link></li>
-        <li><Link to="/events"> Events </Link></li>
+        <li><Link to="/add-event"> Events </Link></li>
     </ul>
   )
 }
