@@ -1,53 +1,24 @@
 from fastapi import FastAPI, File, Request, Depends
+from contextlib import asynccontextmanager
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import DTO.response as resp
+from asgi_correlation_id import CorrelationIdMiddleware
 import DTO.request as req
-from datetime import datetime, UTC
+import psycopg2
+import os
 from uuid import uuid1
-
+import logging
 
 FORMAT_DATES = "%b, %d %H:%M"
 
-info = [
-        {"id": "ff20-32-344-201", "name": "Andres F Gonzalez", "date": "2024-01-18", "concept": "Mental Health", "amount": 180000, "currency": "COP"},
-        {"id": "ff20-32-344-202", "name": "Alejandro Aristizabal", "date": "2024-01-13", "concept": "Nerdapalooza", "amount": 320000, "currency": "COP"},
-        {"id": "ff20-32-344-203", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
-        {"id": "ff20-32-344-204", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
-        {"id": "ff20-32-344-205", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
-        {"id": "ff20-32-344-206", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"},
-        {"id": "ff20-32-344-207", "name": "Daniel Velázquez ", "date": "2024-01-28", "concept": "Nerdapalooza", "amount": 732000, "currency": "COP"}
-    ]    
+logger = logging.getLogger(__name__)
 
-detail = {
-    "ff20-32-344-201": [
-        {"id": 1, "txnDate": "2024-01-14", "type": "MEALS INTERNAL", "detail": "Breakfast", "vendor": "Tofu Palace", "amnt": 8300, "currency": "COP", "invoice": "/path??"},
-        {"id": 2, "txnDate": "2024-01-12", "type": "MEALS INTERNAL", "detail": "Lunch", "vendor": "Brocoli", "amnt": 38300, "currency": "COP", "invoice": "/path??"},
-        {"id": 3, "txnDate": "2024-01-10", "type": "MEALS INTERNAL", "detail": "Dinner", "vendor": "Crepes and waffles", "amnt": 33000, "currency": "COP", "invoice": "/path??"}
-    ],
-    "ff20-32-344-202":
-    [
-        {"id": 1, "txnDate": "2024-03-01", "type": "MEALS INTERNAL", "detail": "Breakfast", "vendor": "Happy Cow", "amnt": 5000, "currency": "COP", "invoice": "/path??"},
-        {"id": 2, "txnDate": "2024-03-01", "type": "MEALS INTERNAL", "detail": "Lunch", "vendor": "Vegan For the Animals", "amnt": 10000, "currency": "COP", "invoice": "/path??"},
-        {"id": 3, "txnDate": "2024-03-01", "type": "MEALS INTERNAL", "detail": "Dinner", "vendor": "La cocinita verde", "amnt": 75000, "currency": "COP", "invoice": "/path??"}
-    ],
-    "ff20-32-344-203":
-    [
-        {"id": 1, "txnDate": "2024-03-01", "type": "MEALS INTERNAL", "detail": "Breakfast", "vendor": "De Raiz", "amnt": 8300, "currency": "COP", "invoice": "/path??"},
-        {"id": 2, "txnDate": "2024-03-01", "type": "MEALS INTERNAL", "detail": "Lunch", "vendor": "Impossible Burger", "amnt": 2800, "currency": "COP", "invoice": "/path??"},
-        {"id": 3, "txnDate": "2024-03-01", "type": "MEALS INTERNAL", "detail": "Dinner", "vendor": "Cardamomo", "amnt": 33000, "currency": "COP", "invoice": "/path??"}
-    ]
-}
+db = psycopg2.connect(user=os.environ["REIMBURSMENT_DB"],
+                 password=os.environ["REIMBURSMENT_DB_PASS"],
+                 host='reimbursement-platform.cphyvakixbqr.us-east-1.rds.amazonaws.com',
+                 port=5432)
 
-available_event_list = [
-    {'event_id': 'nerd-24', 'event_name': 'Nerdapalooza', 'create_date': '2024-01-01'},
-    {'event_id': 'men-hel', 'event_name': 'Mental Health','create_date': '2024-01-01'},
-    {'event_id': 'educ-may', 'event_name': 'Education','create_date': '2024-01-01'},
-    ]
-
-reimbursment_db = {}
-
-    
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -56,6 +27,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(CorrelationIdMiddleware)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    db.close()
+
 
 @app.exception_handler(Exception)
 async def unicorn_exception_handler(request: Request, exc: Exception):
@@ -64,65 +42,55 @@ async def unicorn_exception_handler(request: Request, exc: Exception):
         content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
     )
 
+@app.post("/add-event")
+async def add_event(form: req.NewEvent):
+    with db.cursor() as cur:
+        cur.execute("""
+                    INSERT INTO events
+                    (title, center_of_costs, budget, status, end_dt)""",
+                    (form.title, form.center_of_costs, form.budget, "active", 
+                     form.end_dt)
+        )
+        db.commit()
+
+
 @app.get("/task-list")
 async def task_list():
-    return JSONResponse(info)
-
+    return JSONResponse([])
 
 @app.get("/task-detail/{id}")
 async def task_detail(id: str):
-    return JSONResponse(detail.get(id, []))
+    return JSONResponse([])
 
-
-myEvents = {'ago1':[]}
-
-#TODO: This function should depend on the userId.
-@app.get("/available-events")
-async def available_events():
-    return JSONResponse(available_event_list)
+@app.get("/available-events/{userId}")
+async def available_events(userId: str):
+    with db.cursor() as cur:
+        cur.execute("SELECT event_id FROM events WHERE userID=%s", (userId, ))
+        return JSONResponse([cur.fetchall()])
 
 @app.get("/my-event-list/{userId}")
 async def my_event_list(userId: str):
-    #TODO: Call the database to get all events in status draft or waiting for this user.
-    if userId in myEvents:
-        return myEvents[userId]
     return JSONResponse([])
 
-@app.post('/add-event')
-async def add_event_list(form: req.AddEvent):
-    #Check if there is an event with that id, if not proceed!
-    AVAILABLE_USERS = {'ago1'}
-    if form.user_id not in AVAILABLE_USERS:
-        return "Get the fuck out of here"
-    user_events = set([el.event_id for el in myEvents[form.user_id]])
-    if form.event_id in user_events:
-        return "You already have this event! Fool me once.."
-    #TODO: This should be a call to the database.
-    event_details = [el for el in available_event_list if el['event_id'] == form.event_id][0]
-    newUserEvent = {
-        'id': uuid1().__str__(),
-        'event_id': form.event_id,
-        'event_name': event_details['event_name'], 
-        'create_date': datetime.now(UTC).strftime(FORMAT_DATES),
-        'status': 'draft',
-        'total_amount': 0,
-        'currency': 'USD' ## This should in the db or in the event..
-        }
-    myEvents[form.user_id].append(resp.UserEvent(**newUserEvent))
+@app.post('/new-reimbursment')
+async def new_reimbursment(form: req.AddEvent):
+    with db.cursor() as cur:
+        cur.execute("SELECT event_id FROM WHERE user_id=%s", (form.user_id, ))
+        user_events = set([el for el in cur.fetchall()])
+        if form.event_id in user_events:
+            return "You already have this event! Fool me once.."
+        # We need tot add an status. And probably a reimbursment id.. or use this id
+        cur.execute("INSERT INTO user_events (user_id, event_id) VALUES (%s, %s)", (form.user_id, form.event_id))
     return "OK"
 
-@app.get('/invoice-list/{userId}')
+@app.get('/reimbursment-list/{userId}')
 async def invoice_list(userId: str):
-    #TODO: Check if user is allow to create/view this reimbursment list!!
-    return reimbursment_db.get(userId, [])
-
+    with db.cursor() as cur:
+        cur.execute("SELECT * FROM invoices WHERE user_id=%s", (userId, ))
+        return [el for el in cur.fetchall()]
 
 @app.post('/new-invoice')
 async def new_invoice(form: req.NewInvoice = Depends()):
     form.invoice_id = uuid1().__str__()
-    print(form.invoice.filename)
-    if 'ago1' in reimbursment_db:
-        reimbursment_db['ago1'].append(form.dict_no_file())
-    else:
-        reimbursment_db['ago1'] = [form.dict_no_file()]
+    # TODO: insert into table, and image into an S3, I guess!
     return JSONResponse("OK")

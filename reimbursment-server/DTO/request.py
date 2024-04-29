@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from pydantic import BaseModel
 from fastapi import UploadFile, File, Form
+import datetime
 
 class AddEvent(BaseModel):
     event_id: str
@@ -18,3 +19,9 @@ class NewInvoice:
     def dict_no_file(self):
         d = self.__dict__
         return {k: v for k, v in d.items() if k != 'invoice'}
+
+class NewEvent(BaseModel):
+    title: str
+    center_of_costs: str
+    budget: float
+    end_dt: datetime.date

@@ -26,7 +26,7 @@ const ReimbursmentList = () => {
         e.preventDefault();
         
         const data = e.target;
-        fetch('/api/add-event', {
+        fetch('/api/new-reimbursment', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
