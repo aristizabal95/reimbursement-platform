@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI):
 
 @app.exception_handler(Exception)
 async def unicorn_exception_handler(request: Request, exc: Exception):
-    logger.error(exc.__str__)
+    logger.exception(exc.__str__)
     return JSONResponse(
         status_code=418,
         content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
@@ -61,9 +61,10 @@ async def add_event(form: req.NewEvent):
     with db.cursor() as cur:
         cur.execute("""
                     INSERT INTO events
-                    (title, center_of_costs, budget, status, end_dt)""",
+                    (title, center_of_costs, budget, status, ends_at)
+                    VALUES (%s, %s, %s, %s, %s)""",
                     (form.title, form.center_of_costs, form.budget, "active", 
-                     form.end_dt)
+                    form.end_dt)
         )
         db.commit()
 
