@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Task from './task/Task';
 import './tasklist.css'
-import {fetchData} from './utils.js';
+import {fetchData} from './utils';
 import TaskCarousel from './taskCarousel/TaskCarousel.jsx';
 
 const TaskList = () => {

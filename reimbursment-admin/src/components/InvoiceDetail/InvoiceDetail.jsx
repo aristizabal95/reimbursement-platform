@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa6";
 import './invoicedetail.css'
 import InvoiceForm from '../InvoiceForm/InvoiceForm';
 import { useParams } from 'react-router-dom';
-import {fetchData} from '../utils.js'
+import {fetchData} from '../utils'
 import ExpenseLi from '../ExpenseLi/ExpenseLi.jsx';
 
 const InvoiceDetail = () => {
