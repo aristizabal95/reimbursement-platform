@@ -13,6 +13,8 @@ export const fetchData = async (path, setter) => {
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
-    const [auth, setAuth] = useState('');
-    return <AuthContext.Provider value = {{auth, setAuth}} ></AuthContext.Provider>;
+    const [auth, setAuth] = useState({});
+    return (<AuthContext.Provider values = {{auth, setAuth}} >
+        {children}
+    </AuthContext.Provider>);
 }
