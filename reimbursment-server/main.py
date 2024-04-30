@@ -11,7 +11,9 @@ import DTO.request as req
 import psycopg2
 import os
 from uuid import uuid4
+from uuid import uuid1
 import logging
+from datetime import datetime
 
 FORMAT_DATES = "%b, %d %H:%M"
 
@@ -41,7 +43,7 @@ app.add_middleware(
     transformer=lambda a: a,
 )
 
-
+# Is this closing the conection at the end??
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     yield
@@ -56,17 +58,36 @@ async def unicorn_exception_handler(request: Request, exc: Exception):
         content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
     )
 
+@app.get('/login')
+async def login(form: req.Login):
+    try:
+        with db.cursor() as cur:
+            cur.execute("SELECT id, role_id FROM users WHERE username = %s", form.username)
+            resp = [{'user_id': v[0], 'role_id': v[2]} for v in cur.fetchall()][0]
+            assert len(resp) == 1
+            logger.info(f"User {resp['username']} logged!")
+            return JSONResponse(resp.Auth(**resp, accessToken="super random token"))
+    except Exception as e:
+        logger.error(e)
+        raise e
+
+
 @app.post("/add-event")
 async def add_event(form: req.NewEvent):
     with db.cursor() as cur:
-        cur.execute("""
-                    INSERT INTO events
-                    (title, center_of_costs, budget, status, ends_at)
-                    VALUES (%s, %s, %s, %s, %s)""",
-                    (form.title, form.center_of_costs, form.budget, "active", 
-                    form.end_dt)
-        )
-        db.commit()
+        try:
+            cur.execute("""
+                        INSERT INTO events
+                        (title, center_of_costs, budget, status, ends_at)
+                        VALUES (%s, %s, %s, %s, %s)""",
+                        (form.title, form.center_of_costs, form.budget, "active", 
+                        form.end_dt)
+            )
+            db.commit()
+            logger.info("Add new event to the dataset")
+        except Exception as e:
+            db.rollback()
+            logger.exception(e)
 
 
 @app.get("/task-list")
@@ -79,9 +100,11 @@ async def task_detail(id: str):
 
 @app.get("/available-events/{userId}")
 async def available_events(userId: str):
+    # This should depned on user Id, so the event table should have a group column: all, (clientname)
+    # And users belongs to groups...
     with db.cursor() as cur:
-        cur.execute("SELECT event_id FROM events WHERE userID=%s", (userId, ))
-        return JSONResponse([cur.fetchall()])
+        cur.execute("SELECT id, title FROM events WHERE ends_at >= %s", (datetime.now(), ))
+        return JSONResponse([{'id': v[0], 'title': v[1]} for v in cur.fetchall()])
 
 @app.get("/my-event-list/{userId}")
 async def my_event_list(userId: str):

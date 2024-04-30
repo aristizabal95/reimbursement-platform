@@ -25,3 +25,6 @@ class NewEvent(BaseModel):
     center_of_costs: str
     budget: float
     end_dt: datetime.date
+
+class Login(BaseModel):
+    username: str

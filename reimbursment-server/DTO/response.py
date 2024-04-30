@@ -9,3 +9,8 @@ class UserEvent(BaseModel):
     total_amount: float
     currency: str
 
+class Auth(BaseModel):
+    user_id: int
+    accessToken: str
+    role_id: int
+
