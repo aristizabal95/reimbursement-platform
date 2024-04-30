@@ -11,7 +11,6 @@ import DTO.request as req
 import psycopg2
 import os
 from uuid import uuid4
-from uuid import uuid1
 import logging
 from datetime import datetime
 
@@ -58,18 +57,18 @@ async def unicorn_exception_handler(request: Request, exc: Exception):
         content={"message": f"Oops! {exc.name} did something. There goes a rainbow..."},
     )
 
-@app.get('/login')
-async def login(form: req.Login):
+@app.post('/login')
+async def login(form: req.Login) -> resp.Auth:
     try:
         with db.cursor() as cur:
-            cur.execute("SELECT id, role_id FROM users WHERE username = %s", form.username)
-            resp = [{'user_id': v[0], 'role_id': v[2]} for v in cur.fetchall()][0]
-            assert len(resp) == 1
-            logger.info(f"User {resp['username']} logged!")
-            return JSONResponse(resp.Auth(**resp, accessToken="super random token"))
+            cur.execute("SELECT id, role_id FROM users WHERE username = %s", (form.username, ))
+            result = [{'user_id': v[0], 'role_id': v[1]} for v in cur.fetchall()]
+            assert len(result) == 1
     except Exception as e:
         logger.error(e)
         raise e
+    logger.info(f"User {result[0]['user_id']} logged!")
+    return resp.Auth(**result[0], accessToken="super random token")
 
 
 @app.post("/add-event")
