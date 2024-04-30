@@ -2,10 +2,11 @@ import React, { useContext } from 'react'
 import './Login.css'
 import { AuthContext } from '../utils'
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 const Login = () => {
   
-  const {setAuth} = useContext(AuthContext);
+  const {auth, setAuth} = useContext(AuthContext);
 
   const login = async (e) => {
     e.preventDefault();
@@ -24,6 +25,9 @@ const Login = () => {
 
   return (
     <div className='login-container'>
+        {auth.role_id <= 3 &&
+        <Navigate to="/" replace></Navigate>
+        }
         <form id="login-form" className='login-form' onSubmit={login}>
             <label htmlFor='username'>Username</label>
             <input type="text" id="username" name="username"></input>
