@@ -15,7 +15,7 @@ const ReimbursmentList = () => {
     const userId = 'ago1';
 
     useEffect(() => {
-        fetchData('/api/available-events', setAvailableEvent)
+        fetchData(`/api/available-events/${userId}`, setAvailableEvent)
     }, []);
 
     useEffect(() => {
