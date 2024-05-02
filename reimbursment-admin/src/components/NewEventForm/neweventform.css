@@ -14,12 +14,17 @@
 .new-event-page {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
 }
 
 .new-event-button {
-    font-size: 10rem;
+    font-size: 2rem;
     margin: 1rem;
     padding: 1rem;
+}
+
+.event-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
 }

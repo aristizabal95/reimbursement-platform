@@ -102,8 +102,8 @@ async def available_events(userId: str):
     # This should depned on user Id, so the event table should have a group column: all, (clientname)
     # And users belongs to groups...
     with db.cursor() as cur:
-        cur.execute("SELECT id, title FROM events WHERE ends_at >= %s", (datetime.now(), ))
-        return JSONResponse([{'id': v[0], 'title': v[1]} for v in cur.fetchall()])
+        cur.execute("SELECT id, title, budget FROM events WHERE ends_at >= %s", (datetime.now(), ))
+        return JSONResponse([{'id': v[0], 'title': v[1], 'budget': v[2]} for v in cur.fetchall()])
 
 @app.get("/my-event-list/{userId}")
 async def my_event_list(userId: str):
