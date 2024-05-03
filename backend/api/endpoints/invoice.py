@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 
 from backend.domain.services.invoice import InvoiceService
 
@@ -9,8 +8,7 @@ router = APIRouter()
 @router.post("/invoice")
 def create_invoice(invoice: dict):
     invoice_service = InvoiceService()
-    invoice_service.create_invoice(invoice)
-    return JSONResponse(content={"message": "Invoice created successfully"})
+    return invoice_service.create_invoice(invoice)
 
 
 @router.get("/invoice")

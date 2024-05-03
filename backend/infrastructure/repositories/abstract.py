@@ -24,7 +24,7 @@ class AbstractRepository:
         except sqlalchemy.exc.IntegrityError as exc:
             instance_type: str = self.model.__name__
             raise ValueError(f"{instance_type} already exists") from exc
-        return new_instance
+        return new_instance.to_dict()
 
     def edit(self, instance_dict: dict) -> dict:
         """

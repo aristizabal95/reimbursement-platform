@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 
 from backend.domain.services.user import UserService
 
@@ -9,8 +8,7 @@ router = APIRouter()
 @router.post("/user")
 def create_user(user: dict):
     user_service = UserService()
-    user_service.create_user(user)
-    return JSONResponse(content={"message": "User created successfully"})
+    return user_service.create_user(user)
 
 
 @router.get("/user")

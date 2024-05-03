@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 
 from backend.domain.services.reimbursement import ReimbursementService
 
@@ -9,8 +8,7 @@ router = APIRouter()
 @router.post("/reimbursement")
 def create_reimbursement(reimbursement: dict):
     reimbursement_service = ReimbursementService()
-    reimbursement_service.create_reimbursement(reimbursement)
-    return JSONResponse(content={"message": "Reimbursement created successfully"})
+    return reimbursement_service.create_reimbursement(reimbursement)
 
 
 @router.get("/reimbursement")

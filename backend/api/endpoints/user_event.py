@@ -9,8 +9,7 @@ router = APIRouter()
 @router.post("/user-event")
 def create_user_event(user: dict):
     user_event = UserEventService()
-    user_event.create_user_event(user)
-    return JSONResponse(content={"message": "User created successfully"})
+    return user_event.create_user_event(user)
 
 
 @router.get("/user-event")

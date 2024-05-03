@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 
 from backend.domain.services.role import RoleService
 
@@ -9,8 +8,7 @@ router = APIRouter()
 @router.post("/role")
 def create_role(role: dict):
     role_service = RoleService()
-    role_service.create_role(role)
-    return JSONResponse(content={"message": "Role created successfully"})
+    return role_service.create_role(role)
 
 
 @router.get("/role")

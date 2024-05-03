@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 
 from backend.domain.services.event import EventService
 
@@ -9,8 +8,8 @@ router = APIRouter()
 @router.post("/event")
 def create_event(event: dict):
     event_service = EventService()
-    event_service.create_event(event)
-    return JSONResponse(content={"message": "Event created successfully"})
+    new_event_info = event_service.create_event(event)
+    return new_event_info
 
 
 @router.get("/event")

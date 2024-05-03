@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse
 
 from backend.domain.services.expense import ExpenseService
 
@@ -9,8 +8,7 @@ router = APIRouter()
 @router.post("/expense")
 def create_expense(expense: dict):
     expense_service = ExpenseService()
-    expense_service.create_expense(expense)
-    return JSONResponse(content={"message": "Expense created successfully"})
+    return expense_service.create_expense(expense)
 
 
 @router.get("/expense")
