@@ -4,9 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-load_dotenv(
-    "/Users/rafael/Factored/Projects/reimbursements/reimbursement-platform/backend/infrastructure/.env"
-)
+load_dotenv()
 
 POSTGRES_HOST = os.environ["POSTGRES_HOST"]
 POSTGRES_PORT = os.environ["POSTGRES_PORT"]
