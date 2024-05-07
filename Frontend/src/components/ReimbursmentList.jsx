@@ -19,7 +19,7 @@ const ReimbursmentList = () => {
     }, []);
 
     useEffect(() => {
-        fetchData(`/api/my-event-list/${auth.userId}`, setMyEvents)
+        fetchData(`/api/reimbursement/${auth.userId}`, setMyEvents)
     }, [eventSubmitted]);
 
     const reloadAndSubmit = (e) => {
