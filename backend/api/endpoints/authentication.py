@@ -10,5 +10,5 @@ router = APIRouter()
 
 @router.post("/login")
 async def login(form: req.Login, r: Request) -> resp.Auth:
-    user_info = sql.user_info(r.state.db, **form.model_dump())
+    user_info = await sql.user_info(r.app.state.db, **form.model_dump())
     return resp.Auth(**user_info, accessToken="super random token")

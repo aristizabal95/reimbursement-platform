@@ -10,15 +10,15 @@ router = APIRouter()
 
 @router.get("/reimbursement/{user_id}")
 async def reimbursement(user_id: int, r: Request):
-    return sql.get_reimbursement(r.state.db, user_id)
+    return sql.get_reimbursement(r.app.state.db, user_id)
 
 @router.post("/reimbursement")
 async def add_reimbursement(form: req.Reimbursment, r: Request):
-    return sql.add_reimbursement(r.state.db, **form.model_dump())
+    return sql.add_reimbursement(r.app.state.db, **form.model_dump())
 
 @router.get("/invoice/{user_id}")    
 async def invoice(userId: str, r: Request):
-    with r.state.db.cursor() as cur:
+    with r.app.state.db.cursor() as cur:
         cur.execute("SELECT * FROM invoices WHERE user_id=%s", (userId, ))
         return [el for el in cur.fetchall()]
 
