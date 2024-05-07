@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from starlette.middleware import Middleware
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from asgi_correlation_id import CorrelationIdMiddleware
@@ -17,8 +18,8 @@ async def lifespan(app: FastAPI):
     app.state.db.close()
 
 middleware = [
-    CORSMiddleware(allow_origins=["http://localhost:3000",] ,allow_credentials=True, allow_methods=["*"], allow_headers=["*"]),
-    CorrelationIdMiddleware(header_name='X-Request-ID', update_request_header=True, generator=lambda: uuid4().hex, validator=lambda uuid_: bool(UUID(uuid_, version=4)), transformer=lambda a: a)
+    Middleware(CORSMiddleware, allow_origins=["http://localhost:3000",], allow_credentials=True, allow_methods=["*"], allow_headers=["*"]),
+    Middleware(CorrelationIdMiddleware, header_name='X-Request-ID', update_request_header=True, generator=lambda: uuid4().hex, validator=lambda uuid_: bool(UUID(uuid_, version=4)), transformer=lambda a: a)
 ]
 
 async def unicorn_exception_handler(r: Request, exc: Exception):
