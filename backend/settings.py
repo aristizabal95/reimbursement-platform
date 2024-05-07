@@ -13,8 +13,10 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.db = sql.create_connection()
+    app.state.db = await sql.create_connection()
+    logger.info("DB connected!")
     yield
+    logger.info("DB closed")
     app.state.db.close()
 
 middleware = [

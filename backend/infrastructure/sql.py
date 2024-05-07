@@ -6,7 +6,7 @@ import datetime
 
 logger = logging.getLogger(__name__)
 
-def create_connection():
+async def create_connection():
     try:
         db = psycopg2.connect(user=os.environ["POSTGRES_USERNAME"],
                     password=os.environ["POSTGRES_PASSWORD"],
