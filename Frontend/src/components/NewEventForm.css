@@ -1,0 +1,35 @@
+.create-event{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-event p{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new-event-page {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.new-event-button {
+    font-size: 2rem;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.event-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+}
+
+.add-expense-button {
+    border: 1px solid black;
+    max-width: 10px;
+}
