@@ -22,9 +22,9 @@ async def user_info(db: connection, username: str, **_):
     with db.cursor() as cur:
         try:
             cur.execute("SELECT id, role_id FROM users WHERE username = %s", (username, ))
-            info = cur.fetchone()[0]
+            info = cur.fetchone()
         except Exception as e:
-            logger.error(e)
+            logger.exception(e)
             raise e
     logger.info(f"User {info[0]} logged!")
     return {'user_id': info[0], 'role_id': info[1]}
@@ -59,7 +59,7 @@ async def add_expense(db: connection, event_id: int, name: str, budget: float, d
                 RETURNING id;
             """,
             (event_id, name, budget, desc))
-            expense_id = cur.fetchone()[0]
+            expense_id = cur.fetchone()
             logger.info(f"Expense {expense_id} added to event {event_id}")
             db.commit()
         except Exception as e:
@@ -78,7 +78,7 @@ async def get_reimbursement(db: connection, user_id: str, **_):
                         JOIN status s on s.id = r.status  
                         WHERE r.user_id=%s and r.status < 5
                         """,
-                        (user_id))
+                        (user_id, ))
             reimb_info = cur.fetchall()
         except Exception as e:
             logger.exception(e)

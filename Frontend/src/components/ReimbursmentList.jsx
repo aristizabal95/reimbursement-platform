@@ -15,7 +15,7 @@ const ReimbursmentList = () => {
     const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        fetchData(`/api/available-events/${auth.userId}`, setAvailableEvent)
+        fetchData(`/api/events/${auth.userId}`, setAvailableEvent)
     }, []);
 
     useEffect(() => {

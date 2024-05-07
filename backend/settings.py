@@ -24,6 +24,6 @@ middleware = [
     Middleware(CorrelationIdMiddleware, header_name='X-Request-ID', update_request_header=True, generator=lambda: uuid4().hex, validator=lambda uuid_: bool(UUID(uuid_, version=4)), transformer=lambda a: a)
 ]
 
-async def unicorn_exception_handler(r: Request, exc: Exception):
+def unicorn_exception_handler(r: Request, exc: Exception):
     logger.exception(exc.__str__)
     return JSONResponse(status_code=500, content={"message": f"Internal Error"})

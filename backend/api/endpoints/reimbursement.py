@@ -10,11 +10,13 @@ router = APIRouter()
 
 @router.get("/reimbursement/{user_id}")
 async def reimbursement(user_id: int, r: Request):
-    return sql.get_reimbursement(r.app.state.db, user_id)
+    result = await sql.get_reimbursement(r.app.state.db, user_id)
+    return result
 
 @router.post("/reimbursement")
 async def add_reimbursement(form: req.Reimbursment, r: Request):
-    return sql.add_reimbursement(r.app.state.db, **form.model_dump())
+    result = await sql.add_reimbursement(r.app.state.db, **form.model_dump())
+    return result
 
 @router.get("/invoice/{user_id}")    
 async def invoice(userId: str, r: Request):

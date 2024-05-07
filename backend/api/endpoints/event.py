@@ -1,6 +1,6 @@
 from fastapi import Request, Depends, APIRouter
 from fastapi.responses import JSONResponse
-import datetime
+from datetime import datetime
 import dto.request as req
 import dto.response as resp
 from infrastructure import sql
@@ -13,9 +13,10 @@ router = APIRouter()
 
 @router.post("/event")
 async def add_event(form: req.Event, r: Request) -> dict[str, int]:
-    return sql.add_event(r.app.state.db, **form.model_dump())
+    result = await sql.add_event(r.app.state.db, **form.model_dump())
+    return result
 
-@router.get("/event/{user_id}")
+@router.get("/events/{user_id}")
 async def available_events(user_id: str, r: Request):
     # This should depned on user Id, so the event table should have a group column: all, (clientname)
     # And users belongs to groups...
@@ -25,4 +26,5 @@ async def available_events(user_id: str, r: Request):
 
 @router.post("/expenses")
 async def add_expenses(ee: List[req.Expense], r: Request):
-    return [sql.add_expense(r.app.state.db, **e.model_dump()) for e in ee]
+    result = await [sql.add_expense(r.app.state.db, **e.model_dump()) for e in ee]
+    return result
