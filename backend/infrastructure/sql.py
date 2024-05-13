@@ -23,6 +23,10 @@ async def user_info(db: connection, username: str, **_):
         try:
             cur.execute("SELECT id, role_id FROM users WHERE username = %s", (username, ))
             info = cur.fetchone()
+            assert info != None
+        except AssertionError as e:
+            logger.exception("No data found in the db for given user!")
+            raise e
         except Exception as e:
             logger.exception(e)
             raise e
@@ -49,7 +53,7 @@ async def add_event(db: connection, title: str, center_of_costs: str, budget: fl
             raise
     return {"event_id": event_id}
 
-async def add_expense(db: connection, event_id: int, name: str, budget: float, desc: str, **_):
+async def add_expense(db: connection, event_id: int, name: str, budget: float, desc: str, **_) -> dict:
     with db.cursor() as cur:
         try:
             cur.execute("""
@@ -68,14 +72,14 @@ async def add_expense(db: connection, event_id: int, name: str, budget: float, d
             raise
     return {"expense_id": expense_id}
 
-async def get_reimbursement(db: connection, user_id: str, **_):
+async def user_reimbursement(db: connection, user_id: str, **_):
     with db.cursor() as cur:
         try:
             cur.execute("""
-                        SELECT e.title, r.created_at, s.description, e.currency
-                        FROM reimbursements_v2 r 
+                        SELECT r.id, e.title, r.created_at, s.description, e.currency
+                        FROM reimbursements r 
                         JOIN events e on e.id = r.event_id
-                        JOIN status s on s.id = r.status  
+                        JOIN reimbursement_status s on s.id = r.status_id  
                         WHERE r.user_id=%s and r.status < 5
                         """,
                         (user_id, ))
@@ -83,17 +87,17 @@ async def get_reimbursement(db: connection, user_id: str, **_):
         except Exception as e:
             logger.exception(e)
             raise e
-        colnames = ['event_name', 'created_date', 'status', 'currency']
+        colnames = ['id', 'event_name', 'created_date', 'status', 'currency']
         return [{k: v for k, v in zip(colnames, vv)} for vv in reimb_info]
 
 async def add_reimbursement(db: connection, event_id: int, user_id: int, **_):
     with db.cursor() as cur:
         try:
-            cur.execute("SELECT event_id FROM reimbursements_v2 WHERE user_id=%s", (user_id, ))
+            cur.execute("SELECT event_id FROM reimbursements WHERE user_id=%s", (user_id, ))
             user_events = set([el for el in cur.fetchall()])
             if event_id in user_events:
                 return "You already have this event! Fool me once.."
-            cur.execute("INSERT INTO reimbursements_v2 (event_id, user_id, status) VALUES (%s, %s, %s) RETURNING id;",
+            cur.execute("INSERT INTO reimbursements (event_id, user_id, status) VALUES (%s, %s, %s) RETURNING id;",
                         (event_id, user_id, 1))
             reimb_id = cur.fetchone()
             db.commit()

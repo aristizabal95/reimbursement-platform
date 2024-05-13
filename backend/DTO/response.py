@@ -14,3 +14,13 @@ class Auth(BaseModel):
     accessToken: str
     role_id: int
 
+class Expense(BaseModel):
+    id: int
+    reimb_id: int
+
+class Reimbursement(BaseModel):
+    id: int
+    event_name: str
+    created_date: str 
+    status: str
+    currency: str

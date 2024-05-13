@@ -1,5 +1,7 @@
 from fastapi import FastAPI
-from api.endpoints import event, reimbursement, authentication
+import domain.services.authentication as auth
+import domain.services.event as event
+import domain.services.reimbursement as reimb
 import settings as sett
 import uvicorn
 import logging
@@ -8,9 +10,14 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(lifespan=sett.lifespan, middleware=sett.middleware, exception_handlers={Exception: sett.unicorn_exception_handler})
 
-app.include_router(authentication.router, tags=["Authentication"])
-app.include_router(event.router, tags=["Events"])
-app.include_router(reimbursement.router, tags=["Reimbursement"])
+app.add_api_route("/login", auth.login, methods=["POST"], tags = ["Login"])
+app.add_api_route("/events/{user_id:int}", event.available_events, methods=["GET"], tags=["Events"])
+app.add_api_route("/events", event.add_events, methods=["POST"], tags=["Events"])
+app.add_api_route("/expenses", event.add_expenses, methods=["POST"], tags=["Expenses"])
+app.add_api_route("/reimbursements/{user_id:int}", reimb.user_reimbursements, methods=["GET"], tags=["Reimbursements"], description="Get all reimbursements details for a given user.")
+app.add_api_route("/reimbursements", reimb.add_reimbursements, methods=["POST"], tags=["Reimbursements"], description="Add a reimbursement")
+
+
 
 if __name__ == '__main__':
     config = uvicorn.Config(app, port=8080, reload=True)
