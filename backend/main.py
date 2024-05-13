@@ -1,8 +1,16 @@
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.api.endpoints import (event, expense, invoice, reimbursement,
-                                   role, user, user_event)
+from backend.api.endpoints import (
+    event,
+    expense,
+    invoice,
+    reimbursement,
+    role,
+    user,
+    user_event,
+)
 
 app = FastAPI()
 
@@ -25,3 +33,8 @@ app.include_router(
 app.include_router(role.router, prefix="/roles", tags=["roles"])
 app.include_router(user_event.router, prefix="/user-events", tags=["user-events"])
 app.include_router(user.router, prefix="/users", tags=["users"])
+
+if __name__ == "__main__":
+    config = uvicorn.Config(app, port=8080)
+    server = uvicorn.Server(config)
+    server.run()

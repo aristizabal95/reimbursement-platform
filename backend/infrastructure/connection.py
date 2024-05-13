@@ -23,10 +23,11 @@ class Connection:
     See https://docs.sqlalchemy.org/en/20/orm/contextual.html#using-custom-created-scopes
     """
 
+    engine = create_engine(
+        CONNECTION_URI, echo=False, pool_recycle=3600, pool_size=10, max_overflow=20
+    )
+
     def __init__(self) -> None:
-        self.engine = create_engine(
-            CONNECTION_URI, echo=False, pool_recycle=3600, pool_size=10, max_overflow=20
-        )
         self.Session = sessionmaker(bind=self.engine, expire_on_commit=False)
         self.session = self.Session()
 

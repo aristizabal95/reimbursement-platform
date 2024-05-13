@@ -12,7 +12,7 @@ class UserRepository(AbstractRepository):
             .filter(self.model.username == username)
             .first()
         )
-        return [instance.to_dict() for instance in instances]
+        return instances
 
     def get_user_by_email(self, email: str):
         instances = (
