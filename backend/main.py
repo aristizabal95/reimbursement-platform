@@ -17,6 +17,8 @@ app.add_api_route("/expenses", event.add_expenses, methods=["POST"], tags=["Expe
 app.add_api_route("/expenses/{reimb_id}", event.get_expenses, methods=["GET"], tags=["Expenses"], description="Get all available expenses associated with a reimbursement_id")
 app.add_api_route("/reimbursements/{user_id}", reimb.user_reimbursements, methods=["GET"], tags=["Reimbursements"], description="Get all reimbursements details for a given user.")
 app.add_api_route("/reimbursements", reimb.add_reimbursements, methods=["POST"], tags=["Reimbursements"], description="Add a reimbursement")
+app.add_api_route("/invoices/{reimb_id}", reimb.get_invoices, methods=["GET"], tags=["Invoice"], description="Get all invoices in a given reimbursement")
+app.add_api_route("/invoices", reimb.add_invoices, methods=["POST"], tags=["Invoice"], description="Add an invoice to a given reimbursement")
 
 if __name__ == '__main__':
     config = uvicorn.Config(app, port=8080, reload=True)

@@ -37,8 +37,8 @@ const InvoiceForm = ({click = false, submitFun, expenseList = []}) => {
                 <input type="text" id="vendor" name="vendor" required></input>
             </p>
             <p className='invoice-question'>
-                <label htmlFor="amnt">Amount</label>
-                <input type="tel" id="amnt" name="annt" required></input>
+                <label htmlFor="amount">Amount</label>
+                <input type="tel" id="amount" name="amount" required></input>
                 <select name='currency' id='currency' defaultValue='USD'>
                     <option value='COP'>COP</option>
                     <option value='USD'>USD</option>

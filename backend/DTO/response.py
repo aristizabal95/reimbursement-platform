@@ -25,3 +25,9 @@ class Reimbursement(BaseModel):
     create_date: datetime 
     status: str
     currency: str
+
+class Invoice(BaseModel):
+    id: int
+    vendor: str 
+    amount: float 
+    currency: str

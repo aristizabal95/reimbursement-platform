@@ -1,6 +1,7 @@
 import logging
 import psycopg2
 from psycopg2._psycopg import connection
+from dto.request import Invoice
 import os
 import datetime
 
@@ -120,10 +121,39 @@ async def get_expenses_by_reimbursement(db: connection, reimb_id: int):
                         (select r.event_id from reimbursements r where r.id=%s)
                         """, 
                         (reimb_id, ))
-            ee = [e for e in cur.fetchall()]
+            ee = cur.fetchall() #Can't I just make ee = cur.fetchall()?
         except Exception as e:
             db.rollback()
             logger.exception(e)
             raise e
         return [{"id": e[0], 'name': e[1]} for e in ee] if len(ee) != 0 else []
-    
+
+async def get_invoices(db: connection, reimb_id: int):
+    with db.cursor() as cur:
+        try:
+            cur.execute("""
+                        select id, vendor, amount, currency 
+                        from invoices i where i.reimbursement_id = %s
+                        """, (reimb_id, ))
+            ii = cur.fetchall()
+        except Exception as e:
+            db.rollback()
+            logger.exception(e)
+            raise e
+        return [{'id': i[0], 'vendor': i[1], 'amount': i[2], 'currency': i[3]} for i in ii if len(ii)]
+
+async def add_invoices(db: connection, form: Invoice):
+    with db.cursor() as cur:
+        try:
+            cur.execute("""
+                        INSERT INTO invoices (reimbursement_id, amount, vendor, currency, expense_id, url, description)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                        RETURNING id;
+                        """, 
+                        (form.reimbursement_id, form.amount, form.vendor, form.currency, form.expense_id, form.url, form.desc))
+            invoice_id = cur.fetchone()
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
+        return {"invoice_id": invoice_id}

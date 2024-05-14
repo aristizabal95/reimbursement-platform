@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 from fastapi import UploadFile, File, Form
 import datetime
+from typing import Optional
 
 class Reimbursment(BaseModel):
     event_id: int
@@ -9,16 +10,15 @@ class Reimbursment(BaseModel):
 
 @dataclass
 class Invoice:
-    reimbursment_id: str = Form(...)
-    invoice_id: str = None
-    amnt: str = Form(...)
+    id: str = None
+    reimbursement_id: Optional[str] = Form(None)
+    amount: str = Form(...)
     vendor: str = Form(...)
-    currency: str = Form(...)
-    invoice: UploadFile = File(...)
-
-    def dict_no_file(self):
-        d = self.__dict__
-        return {k: v for k, v in d.items() if k != 'invoice'}
+    currency: str = Form(...) 
+    expense_id: int = Form(None)
+    invoice: Optional[UploadFile] = File(None) #Now we have to deal with expense without a support
+    url: Optional[str] = Form('')
+    desc: Optional[str] = Form('')
 
 class Event(BaseModel):
     title: str

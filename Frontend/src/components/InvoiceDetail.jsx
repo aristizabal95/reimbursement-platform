@@ -5,6 +5,7 @@ import InvoiceForm from './InvoiceForm.jsx';
 import { useParams } from 'react-router-dom';
 import {AuthContext, fetchData} from './utils.jsx'
 import ExpenseLi from './ExpenseLi.jsx';
+import axios from '../api/axios.js';
 
 const InvoiceDetail = () => {
     const [click, setClick] = useState(false);
@@ -15,7 +16,7 @@ const InvoiceDetail = () => {
     const {auth} = useContext(AuthContext)    
 
     useEffect(() => {
-        fetchData(`/invoice-list/${auth.userId}`, setInvoiceList)
+        fetchData(`/invoices/${reimbursmentId}`, setInvoiceList)
         fetchData(`/expenses/${reimbursmentId}`, setExpenseList)
     }, []);
 
@@ -24,18 +25,16 @@ const InvoiceDetail = () => {
         e.preventDefault();
         const formData = new FormData();
         const data = e.target;
-        formData.append("reimbursment_id", reimbursmentId);
+        formData.append("reimbursement_id", reimbursmentId);
         formData.append("expense_id", data.expenseId.value)
-        formData.append("amnt", data.amnt.value);
+        formData.append("amount", data.amount.value);
         formData.append("vendor", data.vendor.value);
         formData.append("currency", data.currency.value);
         formData.append('invoice', data['invoice-file'].files[0]);
-        await fetch('/new-invoice', {
-            method:'POST',
-            body: formData
-        })
+        const resp = await axios.post('/invoices',formData, {headers: {'Content-Type': "multipart/form-data"}});
+        console.log(resp);
         setClick(!click);
-        fetchData(`/invoice-list/${auth.userId}`, setInvoiceList)
+        fetchData(`/invoices/${reimbursmentId}`, setInvoiceList)
     };
 
   return (
