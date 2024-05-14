@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class UserEvent(BaseModel):
     id:str
@@ -21,6 +22,6 @@ class Expense(BaseModel):
 class Reimbursement(BaseModel):
     id: int
     event_name: str
-    create_date: str 
+    create_date: datetime 
     status: str
     currency: str

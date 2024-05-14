@@ -96,10 +96,10 @@ async def user_reimbursement(db: connection, user_id: str, **_):
 async def add_reimbursement(db: connection, event_id: int, user_id: int, **_):
     with db.cursor() as cur:
         try:
-            cur.execute("SELECT event_id FROM reimbursements WHERE user_id=%s", (user_id, ))
-            user_events = set([el for el in cur.fetchall()])
-            if event_id in user_events:
-                return "You already have this event! Fool me once.."
+            cur.execute("SELECT id FROM reimbursements WHERE user_id=%s and event_id=%s", (user_id, event_id))
+            reimbursment = [el for el in cur.fetchall()]
+            if len(reimbursment) != 0:
+                return {"reimb_id": reimbursment[0][0]}
             cur.execute("INSERT INTO reimbursements (event_id, user_id, status_id, description) VALUES (%s, %s, %s, %s) RETURNING id;",
                         (event_id, user_id, 1, ''))
             reimb_id = cur.fetchone()
