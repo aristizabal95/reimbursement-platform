@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-async def user_reimbursements(user_id: int, r: Request) -> res.Reimbursement:
+async def user_reimbursements(user_id: str, r: Request) -> res.Reimbursement:
     result = await sql.user_reimbursement(r.app.state.db, user_id)
     return [res.Reimbursement(**r) for r in result]
 

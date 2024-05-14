@@ -11,10 +11,10 @@ logger = logging.getLogger(__name__)
 app = FastAPI(lifespan=sett.lifespan, middleware=sett.middleware, exception_handlers={Exception: sett.unicorn_exception_handler})
 
 app.add_api_route("/login", auth.login, methods=["POST"], tags = ["Login"])
-app.add_api_route("/events/{user_id:int}", event.available_events, methods=["GET"], tags=["Events"])
+app.add_api_route("/events/{user_id}", event.available_events, methods=["GET"], tags=["Events"])
 app.add_api_route("/events", event.add_events, methods=["POST"], tags=["Events"])
 app.add_api_route("/expenses", event.add_expenses, methods=["POST"], tags=["Expenses"])
-app.add_api_route("/reimbursements/{user_id:int}", reimb.user_reimbursements, methods=["GET"], tags=["Reimbursements"], description="Get all reimbursements details for a given user.")
+app.add_api_route("/reimbursements/{user_id}", reimb.user_reimbursements, methods=["GET"], tags=["Reimbursements"], description="Get all reimbursements details for a given user.")
 app.add_api_route("/reimbursements", reimb.add_reimbursements, methods=["POST"], tags=["Reimbursements"], description="Add a reimbursement")
 
 

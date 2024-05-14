@@ -21,6 +21,6 @@ class Expense(BaseModel):
 class Reimbursement(BaseModel):
     id: int
     event_name: str
-    created_date: str 
+    create_date: str 
     status: str
     currency: str
