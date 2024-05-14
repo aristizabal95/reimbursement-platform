@@ -25,4 +25,5 @@ async def add_expenses(ee: List[req.Expense], r: Request):
     return result
 
 async def get_expenses(reimb_id: int, r: Request) -> List[resp.Expense]:
-    pass
+    result = await sql.get_expenses_by_reimbursement(r.app.state.db, reimb_id)
+    return result

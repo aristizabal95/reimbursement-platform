@@ -17,7 +17,7 @@ class Auth(BaseModel):
 
 class Expense(BaseModel):
     id: int
-    reimb_id: int
+    name: str
 
 class Reimbursement(BaseModel):
     id: int

@@ -110,3 +110,20 @@ async def add_reimbursement(db: connection, event_id: int, user_id: int, **_):
             logger.exception(e)
             raise e
     return {"reimb_id": reimb_id}
+
+async def get_expenses_by_reimbursement(db: connection, reimb_id: int):
+    with db.cursor() as cur:
+        try:
+            cur.execute("""
+                        select ex.id, ex.name from expenses ex
+                        where ex.event_id = 
+                        (select r.event_id from reimbursements r where r.id=%s)
+                        """, 
+                        (reimb_id, ))
+            ee = [e for e in cur.fetchall()]
+        except Exception as e:
+            db.rollback()
+            logger.exception(e)
+            raise e
+        return [{"id": e[0], 'name': e[1]} for e in ee] if len(ee) != 0 else []
+    
