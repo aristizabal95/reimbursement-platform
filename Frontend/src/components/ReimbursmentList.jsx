@@ -6,6 +6,8 @@ import './ReimbursmentList.css'
 
 import { AuthContext, fetchData } from './utils';
 import EventForm from './EventForm';
+import axios from '../api/axios';
+
 
 const ReimbursmentList = () => {
     const [clickNew, setClickNew] = useState(false);
@@ -15,29 +17,22 @@ const ReimbursmentList = () => {
     const {auth} = useContext(AuthContext);
 
     useEffect(() => {
-        fetchData(`/api/events/${auth.userId}`, setAvailableEvent)
+        fetchData(`/events/${auth.userId}`, setAvailableEvent)
     }, []);
 
     useEffect(() => {
-        fetchData(`/api/reimbursement/${auth.userId}`, setMyEvents)
+        fetchData(`/reimbursements/${auth.userId}`, setMyEvents)
     }, [eventSubmitted]);
 
-    const reloadAndSubmit = (e) => {
+    const reloadAndSubmit = async (e) => {
         e.preventDefault();
-        
         const data = e.target;
-        fetch('/api/reimbursement', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+        const resp = await axios.post('/reimbursements', 
+            JSON.stringify({
                 event_id: data.event.value,
                 user_id: auth.userId
-            })
-        })
-        .then( r => r.json());
+            }));
+        // TODO: deal with error here!
         setEventSubmitted(eventSubmitted + 1);
         setClickNew(!clickNew);
     }

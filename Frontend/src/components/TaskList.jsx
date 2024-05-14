@@ -11,12 +11,12 @@ const TaskList = () => {
     const [detail, setDetail] = useState([]);
     
     useEffect( () => {
-        fetchData('/api/task-list', setInfo);
+        fetchData('/task-list', setInfo);
     }, [])
 
     useEffect( () => {
         try {
-            fetchData('/api/task-detail/' + reimbId, setDetail);
+            fetchData('/task-detail/' + reimbId, setDetail);
         } catch (error) {
             console.log(error);
         }

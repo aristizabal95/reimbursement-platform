@@ -26,13 +26,7 @@ const NewEventForm = () => {
         const ee = expenseList.map( (el) => {
             return {event_id: event.data.id, ...el};
         });
-        const expense = await axios.post("/api/expense",
-            JSON.stringify(ee),
-            { headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }},
-        );
+        const expense = await axios.post("/expense", JSON.stringify(ee));
         setClickNew(!clickNew)
         setExpenseList([])
     }
@@ -45,7 +39,7 @@ const NewEventForm = () => {
     }
 
     useEffect( () => {
-            fetchData(`/api/available-events/${auth.user_id}`, setEventList)
+            fetchData(`/available-events/${auth.user_id}`, setEventList)
     }, [clickNew])
 
     

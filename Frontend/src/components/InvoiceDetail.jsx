@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import './InvoiceDetail.css'
 import InvoiceForm from './InvoiceForm.jsx';
 import { useParams } from 'react-router-dom';
-import {fetchData} from './utils.jsx'
+import {AuthContext, fetchData} from './utils.jsx'
 import ExpenseLi from './ExpenseLi.jsx';
 
 const InvoiceDetail = () => {
@@ -11,11 +11,10 @@ const InvoiceDetail = () => {
     const [invoiceList, setInvoiceList] = useState([]);
     const {reimbursmentId} = useParams();
 
-    //TODO get it from the context
-    const userId = 'ago1' 
+    const {auth} = useContext(AuthContext)    
 
     useEffect(() => {
-        fetchData(`/api/invoice-list/${userId}`, setInvoiceList)
+        fetchData(`/invoice-list/${auth.userId}`, setInvoiceList)
     }, []);
     
     
@@ -29,12 +28,12 @@ const InvoiceDetail = () => {
         formData.append("vendor", data.vendor.value);
         formData.append("currency", data.currency.value);
         formData.append('invoice', data['invoice-file'].files[0]);
-        await fetch('/api/new-invoice', {
+        await fetch('/new-invoice', {
             method:'POST',
             body: formData
         })
         setClick(!click);
-        fetchData(`/api/invoice-list/${userId}`, setInvoiceList)
+        fetchData(`/invoice-list/${auth.userId}`, setInvoiceList)
     };
 
   return (

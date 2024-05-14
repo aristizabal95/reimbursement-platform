@@ -1,10 +1,9 @@
 import { createContext, useState } from "react";
-import axios from 'axios'
+import axios from "../api/axios";
 
 export const fetchData = async (path, setter) => {
     try {
-        const resp = await axios.get(path, 
-            {headers: { 'Content-Type': 'application/json'}})
+        const resp = await axios.get(path);
         setter(resp.data);
     } catch (error) {
         console.log(`Error while loading data from ${path}`)
