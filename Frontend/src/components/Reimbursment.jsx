@@ -4,12 +4,15 @@ import {Link} from "react-router-dom"
 
 
 const Reimbursment = ({info = {}, setReimbClick}) => {
+  
+  const createDate = new Date(info.create_date);
+
   return (
     <Link className="linkstyle" to={`/invoice-detail/${info.id}`}>
     <section className='reimbsection' onClick={setReimbClick}>
         <header className='reimbheader'>
             <h3>{info.event_name}</h3>
-            <div>{info.create_date}</div>
+            <div>{createDate.toLocaleDateString()}</div>
         </header>
         <section className='maininfo'>
             <div>{info.status}</div>
