@@ -23,12 +23,15 @@ const InvoiceForm = ({click = false, submitFun, expenseList = []}) => {
                 </label>
                 <input id="invoice-file" type="file" accept='image/*' onChange={handleFileSelect} required/>
             </div>
-            <select name='expenseId' id='expenseId'>
-                    {expenseList.map( (e) => {
-                        return <option value={e.id}>{e.name}</option>;
-                    })
-                    }
-            </select>
+            <p className='invoice-question'>
+                <label htmlFor="expenseId">Expense</label>
+                <select name='expenseId' id='expenseId'>
+                        {expenseList.map( (e) => {
+                            return <option value={e.id}>{e.name}</option>;
+                        })
+                        }
+                </select>
+            </p>
             <p className='invoice-question'>
                 <label htmlFor="vendor">Vendor</label>
                 <input type="text" id="vendor" name="vendor" required></input>
