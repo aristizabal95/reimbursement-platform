@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext, fetchData } from './utils';
 import './NewEventForm.css'
-import axios from 'axios';
+import axios from '../api/axios';
 
 const NewEventForm = () => {
     const [clickNew, setClickNew] = useState(false);
@@ -12,21 +12,19 @@ const NewEventForm = () => {
     const createEvent = async (e) => {
         e.preventDefault();
         const data = e.target;
-        const event = await axios.post("/api/event",
+        const event = await axios.post("/events",
         JSON.stringify({
             title: data.title.value,
             center_of_costs: data.center_of_costs.value,
             budget: data.budget.value,
             currency: data.currency.value,
             ends_at: data.ends_at.value
-        }),{ headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }});
+        })
+        );
         const ee = expenseList.map( (el) => {
             return {event_id: event.data.id, ...el};
         });
-        const expense = await axios.post("/expense", JSON.stringify(ee));
+        const expense = await axios.post("/expenses", JSON.stringify(ee));
         setClickNew(!clickNew)
         setExpenseList([])
     }
@@ -39,7 +37,7 @@ const NewEventForm = () => {
     }
 
     useEffect( () => {
-            fetchData(`/available-events/${auth.user_id}`, setEventList)
+            fetchData('/events/1', setEventList)
     }, [clickNew])
 
     
@@ -49,13 +47,13 @@ const NewEventForm = () => {
         eventList.map((el) => {
             return (<div className='event-header'>
                 <h3>{el.title}</h3>
-                <p>{el.budget}</p>
+                <p>{el.budget} <span>{el.currency}</span></p>
             </div>);
         }) : <></>
         }
         <button className='new-event-button' onClick={() => setClickNew(!clickNew)}>+</button>
         <form className='create-event' onSubmit={createEvent} style={{display: clickNew ? '' : 'none'}}>
-        <p>
+        <p className='event-question'>
             <label htmlFor="title">Name</label>
             <input type="text" id="title" name="title"/>
         </p>
