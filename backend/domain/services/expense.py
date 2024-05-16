@@ -8,14 +8,8 @@ class ExpenseService:
     def create_expense(self, expense):
         return self.expense_repository.add(expense)
 
-    def get_expense(self, expense_id):
-        return self.expense_repository.get_by_id(expense_id)
-
-    def get_all_expenses(self):
-        return self.expense_repository.get_all()
-
-    def get_all_expenses_by_event_id(self, event_id):
-        return self.expense_repository.get_all_expenses_by_event_id(event_id)
+    def get_expense(self, **filters):
+        return self.expense_repository.get_by(**filters)
 
     def update_expense(self, expense):
         return self.expense_repository.edit(expense)

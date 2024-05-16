@@ -1,39 +1,22 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
+import backend.api.schema as sch
 from backend.domain.services.event import EventService
 
 router = APIRouter()
 
 
-@router.post("/event")
+@router.post("/events")
 def create_event(event: dict):
     event_service = EventService()
     new_event_info = event_service.create_event(event)
     return new_event_info
 
 
-@router.get("/event")
-def get_event(event_id: int):
-    event_service = EventService()
-    return event_service.get_event(event_id)
-
-
 @router.get("/events")
-def get_all_events():
+def get_event(filters: sch.Event = Depends()):
     event_service = EventService()
-    return event_service.get_all_events()
-
-
-@router.get("/events-by-center-of-costs")
-def get_all_events_by_center_of_costs(center_of_costs: str):
-    event_service = EventService()
-    return event_service.get_all_events_by_center_of_costs(center_of_costs)
-
-
-@router.get("/events-by-status")
-def get_all_events_by_status(status: str):
-    event_service = EventService()
-    return event_service.get_all_events_by_status(status)
+    return event_service.get_event(**filters.model_dump())
 
 
 @router.put("/event")

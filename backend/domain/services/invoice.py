@@ -32,17 +32,11 @@ class InvoiceService:
         # self.s3_client.download_file("research-projects", image_url, "asdasd.jpeg")
         return self.invoice_repository.add(invoice)
 
-    def get_invoice(self, invoice_id):
-        return self.invoice_repository.get_by_id(invoice_id)
+    def get_invoice(self, **filters):
+        return self.invoice_repository.get_by(**filters)
 
     def get_all_invoices(self):
         return self.invoice_repository.get_all()
-
-    def get_all_invoices_by_user_id(self, user_id):
-        return self.invoice_repository.get_all_invoices_by_user_id(user_id)
-
-    def get_all_invoices_by_event_id(self, event_id):
-        return self.invoice_repository.get_all_invoices_by_event_id(event_id)
 
     def update_invoice(self, invoice):
         return self.invoice_repository.edit(invoice)

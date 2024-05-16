@@ -37,12 +37,22 @@ class AbstractRepository:
         self.session.commit()
         return new_instance.to_dict()
 
-    def get_by_id(self, id: int) -> dict:
-        instance = self.session.query(self.model).get(id)
-        if instance is None:
+    def get_by(self, **kwargs) -> dict:
+        instances = (
+            self.session.query(self.model)
+            .filter(
+                *[
+                    getattr(self.model, k) == v
+                    for k, v in kwargs.items()
+                    if v is not None
+                ]
+            )
+            .all()
+        )
+        if instances is None:
             instance_type: str = self.model.__name__
             raise ValueError(f"{instance_type} not found")
-        return instance.to_dict()
+        return [i.to_dict() for i in instances]
 
     def get_many_by_id(self, ids: List[int]) -> List[dict]:
         instances = self.session.query(self.model).filter(self.model.id.in_(ids)).all()

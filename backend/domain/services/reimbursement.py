@@ -1,5 +1,4 @@
-from backend.infrastructure.repositories.reimbursement import \
-    ReimbursementRepository
+from backend.infrastructure.repositories.reimbursement import ReimbursementRepository
 
 
 class ReimbursementService:
@@ -9,19 +8,8 @@ class ReimbursementService:
     def create_reimbursement(self, reimbursement):
         return self.reimbursement_repository.add(reimbursement)
 
-    def get_reimbursement(self, reimbursement_id):
-        return self.reimbursement_repository.get_by_id(reimbursement_id)
-
-    def get_all_reimbursements(self):
-        return self.reimbursement_repository.get_all()
-
-    def get_all_reimbursements_by_invoice_id(self, invoice_id):
-        return self.reimbursement_repository.get_all_reimbursements_by_invoice_id(
-            invoice_id
-        )
-
-    def get_all_reimbursements_by_status(self, status):
-        return self.reimbursement_repository.get_all_reimbursements_by_status(status)
+    def get_reimbursement(self, **filters):
+        return self.reimbursement_repository.get_by(**filters)
 
     def update_reimbursement(self, reimbursement):
         return self.reimbursement_repository.edit(reimbursement)

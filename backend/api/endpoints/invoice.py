@@ -1,5 +1,6 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, Depends, UploadFile
 
+import backend.api.schema as sch
 from backend.domain.services.invoice import InvoiceService
 
 router = APIRouter()
@@ -11,28 +12,10 @@ def create_invoice(invoice: UploadFile):
     return invoice_service.create_invoice(invoice)
 
 
-@router.get("/invoice")
-def get_invoice(invoice_id: int):
-    invoice_service = InvoiceService()
-    return invoice_service.get_invoice(invoice_id)
-
-
 @router.get("/invoices")
-def get_all_invoices():
+def get_invoice(filters: sch.Invoice = Depends()):
     invoice_service = InvoiceService()
-    return invoice_service.get_all_invoices()
-
-
-@router.get("/invoices-by-user")
-def get_all_invoices_by_user_id(user_id: int):
-    invoice_service = InvoiceService()
-    return invoice_service.get_all_invoices_by_user_id(user_id)
-
-
-@router.get("/invoices-by-event")
-def get_all_invoices_by_event_id(event_id: int):
-    invoice_service = InvoiceService()
-    return invoice_service.get_all_invoices_by_event_id(event_id)
+    return invoice_service.get_invoice(**filters.model_dump())
 
 
 @router.put("/invoice")
