@@ -88,7 +88,7 @@ import {
     ));
   
     return (
-      <Box pb={120}>
+      <Box>
         <header className={classes.header}>
           <Group justify="space-between" h="100%">
             <Image 
@@ -114,6 +114,34 @@ import {
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
           </Group>
         </header>
+  
+        <Drawer
+          opened={drawerOpened}
+          onClose={closeDrawer}
+          size="100%"
+          padding="md"
+          title="Navigation"
+          hiddenFrom="sm"
+          zIndex={1000000}
+        >
+          <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+            <Divider my="sm" />
+  
+            <a href="#" className={classes.link}>
+              Home
+            </a>
+            <a href="#" className={classes.link}>
+              My Requests
+            </a>
+  
+            <Divider my="sm" />
+  
+            <Group justify="center" grow pb="xl" px="md">
+              <Button variant="default">Log in</Button>
+              <Button>Sign up</Button>
+            </Group>
+          </ScrollArea>
+        </Drawer>
       </Box>
     );
   }

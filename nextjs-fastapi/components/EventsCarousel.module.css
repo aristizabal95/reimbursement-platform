@@ -1,0 +1,17 @@
+.indicator {
+    width: 12px;
+    height: 4px;
+    transition: width 250ms ease;
+    background-color: var(--mantine-color-gray-6);
+
+    &[data-active] {
+        width: 40px;
+    }
+}
+
+.control {
+    &[data-inactive] {
+        opacity: 0;
+        cursor: default;
+    }
+}
