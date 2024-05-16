@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile
 
 from backend.domain.services.invoice import InvoiceService
 
@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.post("/invoice")
-def create_invoice(invoice: dict):
+def create_invoice(invoice: UploadFile):
     invoice_service = InvoiceService()
     return invoice_service.create_invoice(invoice)
 

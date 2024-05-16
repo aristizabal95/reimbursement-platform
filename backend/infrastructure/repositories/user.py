@@ -7,18 +7,18 @@ class UserRepository(AbstractRepository):
         super().__init__(User)
 
     def get_user_by_username(self, username: str):
-        instances = (
+        instance = (
             self.session.query(self.model)
             .filter(self.model.username == username)
             .first()
         )
-        return instances
+        return instance.to_dict()
 
     def get_user_by_email(self, email: str):
-        instances = (
+        instance = (
             self.session.query(self.model).filter(self.model.email == email).first()
         )
-        return [instance.to_dict() for instance in instances]
+        return instance.to_dict()
 
     def get_all_users_by_role(self, role_id: str):
         instances = (

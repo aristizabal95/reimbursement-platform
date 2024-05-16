@@ -13,7 +13,7 @@ class AbstractRepository:
 
     def get_all(self):
         instances = self.session.query(self.model).all()
-        return instances
+        return [instance.to_dict() for instance in instances]
 
     def add(self, instance_dict: dict) -> dict:
         try:
@@ -35,14 +35,14 @@ class AbstractRepository:
         new_instance = self.model(**instance_dict)
         self.session.merge(new_instance)
         self.session.commit()
-        return new_instance
+        return new_instance.to_dict()
 
     def get_by_id(self, id: int) -> dict:
         instance = self.session.query(self.model).get(id)
         if instance is None:
             instance_type: str = self.model.__name__
             raise ValueError(f"{instance_type} not found")
-        return instance
+        return instance.to_dict()
 
     def get_many_by_id(self, ids: List[int]) -> List[dict]:
         instances = self.session.query(self.model).filter(self.model.id.in_(ids)).all()
