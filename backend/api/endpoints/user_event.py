@@ -1,55 +1,32 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
+import backend.api.schema as sch
 from backend.domain.services.user_event import UserEventService
 
 router = APIRouter()
 
 
-@router.post("/user-event")
+@router.post("/user-events")
 def create_user_event(user: dict):
     user_event = UserEventService()
     return user_event.create_user_event(user)
 
 
-@router.get("/user-event")
-def get_user_event(user_id: int):
-    user_event = UserEventService()
-    return user_event.get_user_event(user_id)
-
-
 @router.get("/user-events")
-def get_all_user_events():
+def get_user_event(filters: sch.UserEvent = Depends()):
     user_event = UserEventService()
-    return user_event.get_all_user_events()
+    return user_event.get_user_event(**filters.model_dump())
 
 
-@router.get("/user-events-by-user")
-def get_all_user_events_by_user_id(user_id: int):
-    user_event = UserEventService()
-    return user_event.get_all_user_events_by_user_id(user_id)
-
-
-@router.get("/user-events-by-event")
-def get_all_user_events_by_event_id(event_id: int):
-    user_event = UserEventService()
-    return user_event.get_all_user_events_by_event_id(event_id)
-
-
-@router.get("/user-events-by-status")
-def get_all_user_events_by_status(status: bool):
-    user_event = UserEventService()
-    return user_event.get_all_user_events_by_status(status)
-
-
-@router.put("/user-event")
+@router.put("/user-events")
 def update_user_event(user: dict):
     user_event = UserEventService()
     user_event.update_user_event(user)
     return JSONResponse(content={"message": "User_event updated successfully"})
 
 
-@router.delete("/user-event")
+@router.delete("/user-events")
 def delete_user_event(user_event_id: int):
     user_event = UserEventService()
     user_event.delete_user_event(user_event_id)

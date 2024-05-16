@@ -19,13 +19,13 @@ def get_event(filters: sch.Event = Depends()):
     return event_service.get_event(**filters.model_dump())
 
 
-@router.put("/event")
+@router.put("/events")
 def update_event(event_id: int, event: dict):
     event_service = EventService()
     return event_service.update_event(event_id, event)
 
 
-@router.delete("/event")
+@router.delete("/events")
 def delete_event(event_id: int):
     event_service = EventService()
     return event_service.delete_event(event_id)

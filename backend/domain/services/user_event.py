@@ -8,20 +8,8 @@ class UserEventService:
     def create_user_event(self, user_event):
         return self.user_event_repository.add(user_event)
 
-    def get_user_event(self, user_event_id):
-        return self.user_event_repository.get_by_id(user_event_id)
-
-    def get_all_user_events(self):
-        return self.user_event_repository.get_all()
-
-    def get_all_user_events_by_user_id(self, user_id):
-        return self.user_event_repository.get_all_user_events_by_user_id(user_id)
-
-    def get_all_user_events_by_event_id(self, event_id):
-        return self.user_event_repository.get_all_user_events_by_event_id(event_id)
-
-    def get_all_user_events_by_status(self, status):
-        return self.user_event_repository.get_user_events_by_status(status)
+    def get_user_event(self, **filters):
+        return self.user_event_repository.get_by(**filters)
 
     def update_user_event(self, user_event):
         return self.user_event_repository.edit(user_event)

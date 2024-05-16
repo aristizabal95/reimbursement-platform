@@ -35,3 +35,10 @@ class Event(BaseModel):
     center_of_costs: Optional[str] = None
     # TODO: Make a table Event_status with id and desc and link to this field
     status: Optional[bool] = None
+
+
+class UserEvent(BaseModel):
+    id: Optional[int] = None
+    user_id: Optional[int] = None
+    event_id: Optional[int] = None
+    status: Optional[str] = None

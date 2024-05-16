@@ -18,13 +18,13 @@ def get_expense(filters: sch.Expense = Depends()):
     return expense_service.get_expense(**filters.model_dump())
 
 
-@router.put("/expense")
+@router.put("/expenses")
 def update_expense(expense: dict):
     expense_service = ExpenseService()
     return expense_service.update_expense(expense)
 
 
-@router.delete("/expense")
+@router.delete("/expenses")
 def delete_expense(expense_id: int):
     expense_service = ExpenseService()
     return expense_service.delete_expense(expense_id)
