@@ -7,7 +7,6 @@ from backend.api.endpoints import (
     expense,
     invoice,
     reimbursement,
-    role,
     user,
     user_event,
 )
@@ -30,7 +29,6 @@ app.include_router(invoice.router, prefix="/invoices", tags=["invoices"])
 app.include_router(
     reimbursement.router, prefix="/reimbursements", tags=["reimbursements"]
 )
-app.include_router(role.router, prefix="/roles", tags=["roles"])
 app.include_router(user_event.router, prefix="/user-events", tags=["user-events"])
 app.include_router(user.router, prefix="/users", tags=["users"])
 

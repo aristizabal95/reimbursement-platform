@@ -13,7 +13,7 @@ class User(BaseModel):
     id: Optional[int] = None
     email: Optional[str] = None
     username: Optional[str] = None
-    role: Optional[int] = None
+    role_id: Optional[int] = None
 
 
 class Reimbursement(BaseModel):

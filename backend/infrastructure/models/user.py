@@ -4,6 +4,9 @@ from sqlalchemy.orm import relationship
 from backend.infrastructure.models.base import Base
 from backend.infrastructure.models.base_model import BaseModel
 
+# IT complains that Role is not imported... What if role depend of user??
+from backend.infrastructure.models.role import Role
+
 
 class User(Base, BaseModel):
     __tablename__ = "users"
@@ -18,4 +21,4 @@ class User(Base, BaseModel):
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     email = Column(String, nullable=False)
 
-    role = relationship("Role")
+    role = relationship(Role)
