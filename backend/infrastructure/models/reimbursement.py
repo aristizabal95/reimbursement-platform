@@ -13,7 +13,7 @@ class Reimbursement(Base, BaseModel):
         primary_key=True,
         server_default=text("nextval('reimbursements_id_seq'::regclass)"),
     )
-    invoice_id = Column(ForeignKey("invoices.id"), ForeignKey("invoices.id"))
+    user_id = Column(ForeignKey("users.id"), ForeignKey("users.id"))
     event_id = Column(ForeignKey("events.id"), ForeignKey("events.id"))
     status_id = Column(
         ForeignKey("reimbursement_status.id"), ForeignKey("reimbursement_status.id")
@@ -21,5 +21,5 @@ class Reimbursement(Base, BaseModel):
     create_date = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     description = Column(String)
 
-    invoice = relationship("Invoice")
+    user = relationship("User")
     event = relationship("Event")

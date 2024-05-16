@@ -13,8 +13,7 @@ class Invoice(Base, BaseModel):
         primary_key=True,
         server_default=text("nextval('invoices_id_seq'::regclass)"),
     )
-    user_id = Column(ForeignKey("users.id"), ForeignKey("users.id"))
-    event_id = Column(ForeignKey("events.id"), ForeignKey("events.id"))
+
     url = Column(String, nullable=False)
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     currency = Column(String, nullable=False)
@@ -22,7 +21,7 @@ class Invoice(Base, BaseModel):
     amount = Column(Integer, nullable=False)
     expense_id = Column(ForeignKey("expenses.id"), ForeignKey("expenses.id"))
     description = Column(String)
+    reimbursement_id = Column(ForeignKey("reimbursements.id"))
 
-    event = relationship("Event")
+    reimbursement = relationship("Reimbursement")
     expense = relationship("Expense")
-    user = relationship("User")
