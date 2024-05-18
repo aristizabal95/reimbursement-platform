@@ -1,26 +1,18 @@
-from fastapi import Request, Depends
-import dto.request as req
-import dto.response as res
-from infrastructure import sql
-from typing import List, Union
-import logging
-import boto3
+from backend.infrastructure.repositories.reimbursement import ReimbursementRepository
 
-logger = logging.getLogger(__name__)
 
-async def user_reimbursements(user_id: str, r: Request) -> List[Union[res.Reimbursement, None]]:
-    result = await sql.user_reimbursement(r.app.state.db, user_id)
-    return [res.Reimbursement(**r) for r in result if len(result) != 0]
+class ReimbursementService:
+    def __init__(self):
+        self.reimbursement_repository = ReimbursementRepository()
 
-async def add_reimbursements(form: req.Reimbursment, r: Request):
-    result = await sql.add_reimbursement(r.app.state.db, **form.model_dump())
-    return result
+    def create_reimbursement(self, reimbursement):
+        return self.reimbursement_repository.add(reimbursement)
 
-async def get_invoices(reimb_id: int, r: Request) -> List[res.Invoice]:
-    result = await sql.get_invoices(r.app.state.db, reimb_id)
-    return [res.Invoice(**r) for r in result if len(result) != 0]
+    def get_reimbursement(self, **filters):
+        return self.reimbursement_repository.get_by(**filters)
 
-async def add_invoices(r: Request, form: req.Invoice = Depends()):
-    s = r.app.state.session
-    result = await sql.add_invoices(r.app.state.db, form)
-    return result
+    def update_reimbursement(self, reimbursement):
+        return self.reimbursement_repository.edit(reimbursement)
+
+    def delete_reimbursement(self, reimbursement_id):
+        return self.reimbursement_repository.delete(reimbursement_id)

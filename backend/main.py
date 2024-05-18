@@ -1,26 +1,38 @@
-from fastapi import FastAPI
-import domain.services.authentication as auth
-import domain.services.event as event
-import domain.services.reimbursement as reimb
-import settings as sett
 import uvicorn
-import logging
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-logger = logging.getLogger(__name__)
+from backend.api.endpoints import (
+    event,
+    expense,
+    invoice,
+    reimbursement,
+    user,
+    user_event,
+)
 
-app = FastAPI(lifespan=sett.lifespan, middleware=sett.middleware, exception_handlers={Exception: sett.unicorn_exception_handler})
+app = FastAPI()
 
-app.add_api_route("/login", auth.login, methods=["POST"], tags=["Login"])
-app.add_api_route("/events/{user_id}", event.available_events, methods=["GET"], tags=["Events"], description="Get all events that are available for a given user.")
-app.add_api_route("/events", event.add_events, methods=["POST"], tags=["Events"], description="Add a new event in the events tables.")
-app.add_api_route("/expenses", event.add_expenses, methods=["POST"], tags=["Expenses"])
-app.add_api_route("/expenses/{reimb_id}", event.get_expenses, methods=["GET"], tags=["Expenses"], description="Get all available expenses associated with a reimbursement_id")
-app.add_api_route("/reimbursements/{user_id}", reimb.user_reimbursements, methods=["GET"], tags=["Reimbursements"], description="Get all reimbursements details for a given user.")
-app.add_api_route("/reimbursements", reimb.add_reimbursements, methods=["POST"], tags=["Reimbursements"], description="Add a reimbursement")
-app.add_api_route("/invoices/{reimb_id}", reimb.get_invoices, methods=["GET"], tags=["Invoice"], description="Get all invoices in a given reimbursement")
-app.add_api_route("/invoices", reimb.add_invoices, methods=["POST"], tags=["Invoice"], description="Add an invoice to a given reimbursement")
+origins = ["http://localhost:3000"]
 
-if __name__ == '__main__':
-    config = uvicorn.Config(app, port=8080, reload=True)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(event.router, prefix="/events", tags=["events"])
+app.include_router(expense.router, prefix="/expenses", tags=["expenses"])
+app.include_router(invoice.router, prefix="/invoices", tags=["invoices"])
+app.include_router(
+    reimbursement.router, prefix="/reimbursements", tags=["reimbursements"]
+)
+app.include_router(user_event.router, prefix="/user-events", tags=["user-events"])
+app.include_router(user.router, prefix="/users", tags=["users"])
+
+if __name__ == "__main__":
+    config = uvicorn.Config(app, port=8080)
     server = uvicorn.Server(config)
     server.run()

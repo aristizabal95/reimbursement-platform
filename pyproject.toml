@@ -1,0 +1,21 @@
+# Make isort compatible with black
+profile = "black"
+
+[tool.black]
+line-length = 88
+exclude = '''
+/(
+    \.git
+  | \node_modules
+  | \frontends
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | website
+)/
+'''
