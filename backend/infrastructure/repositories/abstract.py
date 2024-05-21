@@ -52,7 +52,7 @@ class AbstractRepository:
         if instances is None:
             instance_type: str = self.model.__name__
             raise ValueError(f"{instance_type} not found")
-        return [i.to_dict() for i in instances]
+        return [instance.to_dict() for instance in instances]
 
     def get_many_by_id(self, ids: List[int]) -> List[dict]:
         instances = self.session.query(self.model).filter(self.model.id.in_(ids)).all()

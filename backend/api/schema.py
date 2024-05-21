@@ -27,7 +27,8 @@ class Reimbursement(BaseModel):
 
 
 class ReimbursementInfo(BaseModel):
-    reimbursement_id: int = None
+    reimbursement_id: int
+    event_id: int
     username: str
     event: str
     currency: str

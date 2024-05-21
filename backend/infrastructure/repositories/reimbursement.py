@@ -30,6 +30,7 @@ class ReimbursementRepository(AbstractRepository):
             result.append(
                 {
                     "reimbursement_id": reimbursement.id,
+                    "event_id": event.id,
                     "username": user.username,
                     "event": event.title,
                     "currency": event.currency,
