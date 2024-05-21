@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
@@ -18,11 +19,20 @@ class User(BaseModel):
 
 class Reimbursement(BaseModel):
     id: Optional[int] = None
-    status_id: Optional[int] = None
+    status_id: Optional[int] = 1
     # TODO: Set as time
     create_date: Optional[str] = None
     event_id: Optional[int] = None
     user_id: Optional[int] = None
+
+
+class ReimbursementInfo(BaseModel):
+    reimbursement_id: int = None
+    username: str
+    event: str
+    currency: str
+    status: str
+    createDate: datetime
 
 
 class Expense(BaseModel):

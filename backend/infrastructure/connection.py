@@ -26,9 +26,9 @@ class Connection:
     engine = create_engine(
         CONNECTION_URI, echo=False, pool_recycle=3600, pool_size=10, max_overflow=20
     )
+    Session = sessionmaker(bind=engine, expire_on_commit=False)
 
     def __init__(self) -> None:
-        self.Session = sessionmaker(bind=self.engine, expire_on_commit=False)
         self.session = self.Session()
 
     def refresh_session(self):

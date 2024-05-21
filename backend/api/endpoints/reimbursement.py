@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
 
 import backend.api.schema as sch
@@ -13,9 +15,12 @@ def create_reimbursement(reimbursement: dict):
 
 
 @router.get("/reimbursements")
-def get_reimbursement(filters: sch.Reimbursement = Depends()):
+def get_reimbursement(
+    filters: sch.Reimbursement = Depends(),
+) -> List[sch.ReimbursementInfo]:
     reimbursement_service = ReimbursementService()
-    return reimbursement_service.get_reimbursement(**filters.model_dump())
+    results = reimbursement_service.get_reimbursement(**filters.model_dump())
+    return [sch.ReimbursementInfo(**result) for result in results]
 
 
 @router.put("/reimbursements")

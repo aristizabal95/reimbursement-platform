@@ -33,6 +33,6 @@ app.include_router(user_event.router, prefix="/user-events", tags=["user-events"
 app.include_router(user.router, prefix="/users", tags=["users"])
 
 if __name__ == "__main__":
-    config = uvicorn.Config(app, port=8080)
+    config = uvicorn.Config("backend.main:app", port=8080, reload=True)
     server = uvicorn.Server(config)
     server.run()

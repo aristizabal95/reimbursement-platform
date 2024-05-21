@@ -32,14 +32,3 @@ repos:
         additional_dependencies:
           - stylelint@13.11.0
           - stylelint-config-standard@20.0.0
-
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.46.0
-    hooks:
-      - id: eslint
-        args: [--fix --silent]
-        files: \.[jt]sx?$
-        types: [file]
-        additional_dependencies:
-          - eslint@7.21.0
-          - eslint-config-react-app

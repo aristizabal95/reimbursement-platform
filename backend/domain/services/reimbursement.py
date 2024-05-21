@@ -9,7 +9,7 @@ class ReimbursementService:
         return self.reimbursement_repository.add(reimbursement)
 
     def get_reimbursement(self, **filters):
-        return self.reimbursement_repository.get_by(**filters)
+        return self.reimbursement_repository.get_reimbursements_info(**filters)
 
     def update_reimbursement(self, reimbursement):
         return self.reimbursement_repository.edit(reimbursement)
