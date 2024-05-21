@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
+from fastapi import Form, UploadFile
 from pydantic import BaseModel
 
 
@@ -8,6 +10,18 @@ class Invoice(BaseModel):
     id: Optional[int] = None
     expense_id: Optional[int] = None
     reimbursement_id: Optional[int] = None
+
+
+@dataclass
+class InvoiceUpload:
+    id: int = None
+    reimbursement_id: int = Form(...)
+    currency: str = Form(...)
+    amount: float = Form(...)
+    vendor: str = Form(...)
+    expense_id: int = Form(...)
+    description: str = Form(...)
+    image: UploadFile = Form(...)
 
 
 class User(BaseModel):

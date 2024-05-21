@@ -17,22 +17,26 @@ class InvoiceService:
             aws_session_token=self.aws_session_token,
         )
         self.s3_client = self.s3_session.client("s3")
+        self.PROJECT = "research-projects"
+        self.INVOICE_PATH = "reimbursement-platform/receipts"
 
-    def create_invoice(self, invoice):
+    def upload_file(self, file: bytes, filename: str, reimbursement_id: int, **_):
+        image_url = (self.INVOICE_PATH + f"/{reimbursement_id}/{filename}",)
         try:
-            self.s3_client.upload_fileobj(
-                invoice.file,
-                "research-projects",
-                f"reimbursement-platform/receipts/{invoice.filename}",
-            )
+            self.s3_client.upload_fileobj(file, self.PROJECT, image_url)
         except Exception as e:
-            print(e)
+            raise e
+        return image_url
+
+    def create_invoice(self, **kwargs):
+        image_url = self.upload_file(**kwargs)
+        kwargs["url"] = image_url
+        return self.invoice_repository.add(**kwargs)
+
+    def get_invoice(self, **filters):
         # image_url = f"reimbursement-platform/receipts/{invoice.filename}"
         # presigned_url = self.s3_client.generate_presigned_url('get_object', Params={'Bucket': 'research-projects', 'Key': image_url}, ExpiresIn=3600)
         # self.s3_client.download_file("research-projects", image_url, "asdasd.jpeg")
-        return self.invoice_repository.add(invoice)
-
-    def get_invoice(self, **filters):
         return self.invoice_repository.get_by(**filters)
 
     def get_all_invoices(self):

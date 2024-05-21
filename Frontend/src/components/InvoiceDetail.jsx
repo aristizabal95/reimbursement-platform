@@ -34,7 +34,7 @@ const InvoiceDetail = () => {
     formData.append("vendor", data.vendor.value);
     formData.append("currency", data.currency.value);
     formData.append("invoice", data["invoice-file"].files[0]);
-    const resp = await axios.post("/invoices", formData, {
+    const resp = await axios.post("/invoices/invoices", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     console.log(resp);
