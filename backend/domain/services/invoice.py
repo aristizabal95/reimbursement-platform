@@ -1,6 +1,7 @@
 import os
 
 from boto3 import session
+from fastapi import UploadFile
 
 from backend.infrastructure.repositories.invoice import InvoiceRepository
 
@@ -20,10 +21,10 @@ class InvoiceService:
         self.PROJECT = "research-projects"
         self.INVOICE_PATH = "reimbursement-platform/receipts"
 
-    def upload_file(self, file: bytes, filename: str, reimbursement_id: int, **_):
-        image_url = (self.INVOICE_PATH + f"/{reimbursement_id}/{filename}",)
+    def upload_file(self, reimbursement_id: int, image: UploadFile, **_):
+        image_url = self.INVOICE_PATH + f"/{reimbursement_id}/{image.filename}"
         try:
-            self.s3_client.upload_fileobj(file, self.PROJECT, image_url)
+            self.s3_client.upload_fileobj(image.file, self.PROJECT, image_url)
         except Exception as e:
             raise e
         return image_url
@@ -31,7 +32,8 @@ class InvoiceService:
     def create_invoice(self, **kwargs):
         image_url = self.upload_file(**kwargs)
         kwargs["url"] = image_url
-        return self.invoice_repository.add(**kwargs)
+        del kwargs["image"]
+        return self.invoice_repository.add(kwargs)
 
     def get_invoice(self, **filters):
         # image_url = f"reimbursement-platform/receipts/{invoice.filename}"

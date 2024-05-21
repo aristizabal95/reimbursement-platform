@@ -16,11 +16,11 @@ class Invoice(BaseModel):
 class InvoiceUpload:
     id: int = None
     reimbursement_id: int = Form(...)
+    expense_id: int = Form(...)
     currency: str = Form(...)
     amount: float = Form(...)
     vendor: str = Form(...)
-    expense_id: int = Form(...)
-    description: str = Form(...)
+    description: str = Form("")
     image: UploadFile = Form(...)
 
 

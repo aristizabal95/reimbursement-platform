@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/invoices")
-def create_invoice(invoice: sch.InvoiceUpload):
+def create_invoice(invoice: sch.InvoiceUpload = Depends()):
     invoice_service = InvoiceService()
     return invoice_service.create_invoice(**invoice.__dict__)
 
