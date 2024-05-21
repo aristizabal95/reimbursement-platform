@@ -32,7 +32,7 @@ class ReimbursementInfo(BaseModel):
     event: str
     currency: str
     status: str
-    createDate: datetime
+    create_date: datetime
 
 
 class Expense(BaseModel):

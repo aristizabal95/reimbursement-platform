@@ -34,7 +34,7 @@ class ReimbursementRepository(AbstractRepository):
                     "event": event.title,
                     "currency": event.currency,
                     "status": reimbursement_status.description,
-                    "createDate": reimbursement.create_date,
+                    "create_date": reimbursement.create_date,
                 }
             )
         return result
