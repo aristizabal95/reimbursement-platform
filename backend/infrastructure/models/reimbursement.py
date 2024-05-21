@@ -20,7 +20,7 @@ class Reimbursement(Base, BaseModel):
         ForeignKey("reimbursement_status.id"),
         default=1,
     )
-    create_date = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     description = Column(String)
 
     user = relationship("User")

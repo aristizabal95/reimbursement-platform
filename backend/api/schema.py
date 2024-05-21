@@ -35,7 +35,7 @@ class Reimbursement(BaseModel):
     id: Optional[int] = None
     status_id: Optional[int] = 1
     # TODO: Set as time
-    create_date: Optional[str] = None
+    created_at: Optional[str] = None
     event_id: Optional[int] = None
     user_id: Optional[int] = None
 
@@ -47,7 +47,7 @@ class ReimbursementInfo(BaseModel):
     event: str
     currency: str
     status: str
-    create_date: datetime
+    created_at: datetime
 
 
 class Expense(BaseModel):

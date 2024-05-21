@@ -39,7 +39,7 @@ class InvoiceService:
         # image_url = f"reimbursement-platform/receipts/{invoice.filename}"
         # presigned_url = self.s3_client.generate_presigned_url('get_object', Params={'Bucket': 'research-projects', 'Key': image_url}, ExpiresIn=3600)
         # self.s3_client.download_file("research-projects", image_url, "asdasd.jpeg")
-        return self.invoice_repository.get_by(**filters)
+        return self.invoice_repository.get_invoice_info(**filters)
 
     def get_all_invoices(self):
         return self.invoice_repository.get_all()

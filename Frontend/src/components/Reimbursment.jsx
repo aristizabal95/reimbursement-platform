@@ -3,7 +3,7 @@ import "./Reimbursment.css";
 import { Link } from "react-router-dom";
 
 const Reimbursment = ({ info = {}, setReimbClick }) => {
-  const createDate = new Date(info.create_date);
+  const createDate = new Date(info.created_at);
 
   return (
     <Link
