@@ -1,9 +1,13 @@
+import logging
 import os
 
 from boto3 import session
+from botocore.client import Config
 from fastapi import UploadFile
 
 from backend.infrastructure.repositories.invoice import InvoiceRepository
+
+logger = logging.getLogger(__name__)
 
 
 class InvoiceService:
@@ -17,7 +21,9 @@ class InvoiceService:
             aws_secret_access_key=self.aws_secret_access_key,
             aws_session_token=self.aws_session_token,
         )
-        self.s3_client = self.s3_session.client("s3")
+        self.s3_client = self.s3_session.client(
+            "s3", config=Config(signature_version="s3v4", region_name="us-east-2")
+        )
         self.PROJECT = "research-projects"
         self.INVOICE_PATH = "reimbursement-platform/receipts"
 
@@ -36,10 +42,17 @@ class InvoiceService:
         return self.invoice_repository.add(kwargs)
 
     def get_invoice(self, **filters):
-        # image_url = f"reimbursement-platform/receipts/{invoice.filename}"
-        # presigned_url = self.s3_client.generate_presigned_url('get_object', Params={'Bucket': 'research-projects', 'Key': image_url}, ExpiresIn=3600)
-        # self.s3_client.download_file("research-projects", image_url, "asdasd.jpeg")
-        return self.invoice_repository.get_invoice_info(**filters)
+        results = self.invoice_repository.get_invoice_info(**filters)
+        for result in results:
+            try:
+                result["url"] = self.s3_client.generate_presigned_url(
+                    "get_object",
+                    Params={"Bucket": "research-projects", "Key": result["url"]},
+                    ExpiresIn=3600,
+                )
+            except Exception as e:
+                logger.exception(e)
+        return results
 
     def get_all_invoices(self):
         return self.invoice_repository.get_all()
