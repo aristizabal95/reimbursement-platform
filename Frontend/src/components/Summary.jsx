@@ -2,37 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./Summary.css";
 
 const Summary = ({ detail = [], onSubmit }) => {
-  const defaultTotal =
-    detail.length != 0 ? detail.reduce((acc, v) => acc + v.amnt, 0) : 0;
-  var amountsInit =
+  const amountsKeys =
     detail.length != 0
-      ? detail.map((el) => ({ k: `input${el.invoice_id}`, v: el.amount + 0 }))
-      : [{}];
+      ? detail.map((el) => [`input${el.invoice_id}`, +el.amount])
+      : null;
+  const amountsInit = Object.fromEntries(amountsKeys);
   const [amounts, setAmounts] = useState(amountsInit);
-  const [total, setTotal] = useState(defaultTotal);
-
-  const TotalElement = (
-    <div className="summarytotal">
-      <p>
-        {total} <span>COP</span>
-      </p>
-    </div>
-  );
+  const total = Object.values(amounts).reduce((acc, v) => acc + v, 0);
 
   const changeInput = (e) => {
     //TODO: sum with a same currency.
-    const key = e.target.invoice_id;
-    const newVal = +e.target.value;
-    console.log(e.target.value);
-    setAmounts((prevState) => {
-      return prevState.map((el) => (el.k == key ? { k: key, v: newVal } : el));
+    setAmounts({
+      ...amounts,
+      [e.target.id]: +e.target.value,
     });
   };
-
-  useEffect(() => {
-    const newTotal = amounts.reduce((acc, el) => acc + el.v, 0);
-    setTotal(newTotal);
-  }, [amounts]);
 
   return (
     <form className="summaryform" onSubmit={onSubmit}>
@@ -54,7 +38,11 @@ const Summary = ({ detail = [], onSubmit }) => {
       ) : (
         <></>
       )}
-      {TotalElement}
+      <div className="summarytotal">
+        <p>
+          {total} <span>COP</span>
+        </p>
+      </div>
       <button className="approve" type="submit">
         Approve
       </button>
