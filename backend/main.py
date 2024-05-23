@@ -2,7 +2,6 @@ import logging
 
 import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.endpoints import (
     event,
@@ -12,21 +11,15 @@ from backend.api.endpoints import (
     user,
     user_event,
 )
+from backend.settings import middlewares
 
-app = FastAPI()
+app = FastAPI(middleware=middlewares)
 
 logger = logging.getLogger(__name__)
 
 origins = ["http://localhost:3000"]
 
 logger.info("Adding middleware!")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 app.include_router(event.router, prefix="/events", tags=["events"])
 app.include_router(expense.router, prefix="/expenses", tags=["expenses"])
