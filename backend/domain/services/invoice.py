@@ -29,6 +29,7 @@ class InvoiceService:
 
     def upload_file(self, reimbursement_id: int, image: UploadFile, **_):
         image_url = self.INVOICE_PATH + f"/{reimbursement_id}/{image.filename}"
+        # TODO: Check if this url is in the db before uploading
         try:
             self.s3_client.upload_fileobj(image.file, self.PROJECT, image_url)
         except Exception as e:

@@ -12,7 +12,7 @@ formatters:
 handlers:
   console:
     class: logging.StreamHandler
-    level: ERROR
+    level: DEBUG
     filters: [correlation_id]
     formatter: json
     stream: ext://sys.stdout
@@ -26,3 +26,20 @@ handlers:
 root:
   level: DEBUG
   handlers: [console, file]
+  propagate: yes
+
+loggers:
+  uvicorn:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: no
+
+  uvicorn.access:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: no
+
+  uvicorn.error:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: no

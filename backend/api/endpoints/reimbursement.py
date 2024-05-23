@@ -29,6 +29,11 @@ def update_reimbursement(reimbursement: dict):
     return reimbursement_service.update_reimbursement(reimbursement)
 
 
+@router.patch("/reimbursements")
+def patch_reimbursement(fields: sch.Reimbursement = Depends()):
+    return ReimbursementService().add(**fields.model_dump())
+
+
 @router.delete("/reimbursements")
 def delete_reimbursement(reimbursement_id: int):
     reimbursement_service = ReimbursementService()
