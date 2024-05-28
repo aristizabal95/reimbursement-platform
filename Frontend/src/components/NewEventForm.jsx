@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, fetchData } from "./utils";
-import "./NewEventForm.css";
 import axios from "../api/axios";
 
 const NewEventForm = () => {

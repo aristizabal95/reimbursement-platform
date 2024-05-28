@@ -1,5 +1,4 @@
 import React from "react";
-import "./Reimbursment.css";
 import { Link } from "react-router-dom";
 
 const Reimbursment = ({ info = {}, setReimbClick }) => {

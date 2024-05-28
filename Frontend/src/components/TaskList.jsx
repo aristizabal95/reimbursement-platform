@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Task from "./Task.jsx";
-import "./TaskList.css";
 import { fetchData } from "./utils.jsx";
 import TaskCarousel from "./TaskCarousel.jsx";
 

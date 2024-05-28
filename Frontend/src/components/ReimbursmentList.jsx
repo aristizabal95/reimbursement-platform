@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import Reimbursment from "./Reimbursment";
 import { FaPlus } from "react-icons/fa6";
 
-import "./ReimbursmentList.css";
-
 import { AuthContext, fetchData } from "./utils";
 import EventForm from "./EventForm";
 import axios from "../api/axios";

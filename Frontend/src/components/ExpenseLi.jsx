@@ -1,5 +1,4 @@
 import React from "react";
-import "./ExpenseLi.css";
 
 const ExpenseLi = ({ expense, click }) => {
   return (

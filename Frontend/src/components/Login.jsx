@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "./Login.css";
 import { AuthContext } from "./utils";
 import axios from "axios";
 import { Navigate } from "react-router-dom";

@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./TaskDetail.css";
+import React, { useState } from "react";
 
 const TaskDetail = ({ detail = {} }) => {
   // Taken from:

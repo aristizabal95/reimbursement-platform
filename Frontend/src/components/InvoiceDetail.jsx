@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./InvoiceDetail.css";
 import InvoiceForm from "./InvoiceForm.jsx";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext, fetchData } from "./utils.jsx";

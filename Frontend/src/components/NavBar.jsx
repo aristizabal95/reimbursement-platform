@@ -1,5 +1,4 @@
 import React from "react";
-import "./NavBar.css";
 import factorLogo from "../assets/factored-logo.svg";
 import { Link } from "react-router-dom";
 

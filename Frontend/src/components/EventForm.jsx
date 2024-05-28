@@ -1,6 +1,5 @@
 //This should be
 import React from "react";
-import "./EventForm.css";
 
 const EventForm = ({ display = true, eventList = [{}], submitFun }) => {
   return (

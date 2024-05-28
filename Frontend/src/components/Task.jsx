@@ -1,5 +1,4 @@
 import React from "react";
-import "./Task.css";
 
 const Task = ({ info = {}, setReimbClick, selectedId }) => {
   const createDate = new Date(info.created_at);

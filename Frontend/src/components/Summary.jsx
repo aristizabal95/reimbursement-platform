@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Summary.css";
 
 const Summary = ({ detail = [], onSubmit }) => {
   const amountsKeys =
