@@ -25,7 +25,7 @@
     text-decoration: underline;
     text-decoration-color: red;
     text-decoration-style: double;
-    
+
 }
 
 .summaryform input{
@@ -39,7 +39,6 @@
 
 .approve {
     display: flex;
-    font-family: 'Courier New', Courier, monospace;
     width: 50%;
     font-size: 1.2rem;
     cursor: pointer;
@@ -48,5 +47,3 @@
     border: none;
     border-bottom: 2px dashed green;
 }
-
-

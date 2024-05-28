@@ -1,14 +1,11 @@
-:root {
-    --HEADER_BGCOLOR : rgb(237, 9, 165);
-    --HEADER_COLOR: rgba(255, 217, 0, 0.892);
-}
-
 .navheader {
     display: flex;
     justify-content: space-evenly;
-    background-color: var(--HEADER_BGCOLOR);
-    font-size: 1.5rem;
+    align-items: center;
+    background-color: rgb(13 54 96);
+    font-size: 1rem;
     padding: .5rem;
+    min-height: 64px;
 }
 
 .navheader li{
@@ -17,10 +14,10 @@
 
 .navheader a {
     text-decoration: none;
-    color: var(--HEADER_COLOR);
+    color: rgb(255 255 255);
     font-weight: bold;
 }
 
 .navheader a:visited {
-    color: var(--HEADER_COLOR);
+    color: rgb(255 255 255);
 }

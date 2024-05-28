@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Summary.css";
 
 const Summary = ({ detail = [], onSubmit }) => {
@@ -28,7 +28,7 @@ const Summary = ({ detail = [], onSubmit }) => {
               <input
                 type="tel"
                 id={`input${el.invoice_id}`}
-                defaultValue={el.amount}
+                defaultValue={el.amount.toLocaleString()}
                 onChange={changeInput}
               ></input>
               <span>{el.currency}</span>
@@ -40,7 +40,7 @@ const Summary = ({ detail = [], onSubmit }) => {
       )}
       <div className="summarytotal">
         <p>
-          {total} <span>COP</span>
+          {total.toLocaleString()} <span>COP</span>
         </p>
       </div>
       <button className="approve" type="submit">

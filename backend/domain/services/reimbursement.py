@@ -6,6 +6,7 @@ class ReimbursementService:
         self.reimbursement_repository = ReimbursementRepository()
 
     def create_reimbursement(self, reimbursement):
+        # TODO: Check the user don't have already a reimbursement for this event!
         return self.reimbursement_repository.add(reimbursement)
 
     def get_reimbursement(self, **filters):

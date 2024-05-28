@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, text
+from sqlalchemy import Column, Date, DateTime, ForeignKey, Integer, String, text
 from sqlalchemy.orm import relationship
 
 from backend.infrastructure.models.base import Base
@@ -16,6 +16,7 @@ class Invoice(Base, BaseModel):
 
     url = Column(String, nullable=False)
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    dte = Column(Date, nullable=False)
     currency = Column(String, nullable=False)
     vendor = Column(String, nullable=False)
     amount = Column(Integer, nullable=False)

@@ -1,36 +1,50 @@
-.create-event{
+.add-event {
     display: flex;
-    flex-flow: column nowrap;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-}
-
-.create-event p{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.new-event-page {
-    display: flex;
-    flex-flow: column nowrap;
-}
-
-.new-event-button {
-    font-size: 2rem;
+    font-family: 'Courier New', Courier, monospace;
+    width: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
     margin: 1rem;
+    background-color: white;
+    border: none;
+}
+
+.brown {
+    border-bottom: 2px dashed brown;
+}
+
+.green {
+    border-bottom: 2px dashed green;
+}
+
+.blue {
+    border-bottom: 2px dashed blue;
+}
+
+.new-event-form {
+    display: flex;
+    flex-flow: column;
+}
+
+.form-item {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    justify-content: center;
     padding: 1rem;
 }
 
-.event-header {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-
+.form-input{
+    align-items: center;
+    width: 70%;
+    max-height: 2rem;
+    border: none;
+    border-bottom: 1px dashed gray;
+    text-align: center;
 }
 
-.add-expense-button {
-    border: 1px solid black;
-    max-width: 10px;
-}
+.expense-form {
+    margin: 1rem;
 
+}
