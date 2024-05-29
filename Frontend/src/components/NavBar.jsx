@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <ul className="navheader">
+    <ul className="flex justify-evenly align-center m-1 p-1 bg-blue">
       <li>
-        <img src={factorLogo} className="factored-logo"></img>
+        <img src={factorLogo} className=""></img>
       </li>
       <li>
         <Link to="/"> Home </Link>

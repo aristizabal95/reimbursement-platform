@@ -15,7 +15,7 @@ const Reimbursment = ({ info = {}, setReimbClick }) => {
           <div>{createDate.toLocaleDateString()}</div>
         </header>
         <section className="maininfo">
-          <div>{info.status}</div>
+          <div className="pending">{info.status}</div>
           <div>
             <span>{`${info.currency}`}</span>
           </div>
