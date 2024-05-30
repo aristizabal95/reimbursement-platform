@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 
 const InvoiceList = ({ invoice }) => {
   return (
-    <li
-      key={invoice.id}
-      className="flex justify-between items-center w-full pb-2"
-    >
-      <p className="capitalize">{invoice.vendor}</p>
-      <p>
+    <tr>
+      <td>
+        <Link
+          to={`/invoice/${invoice.id}`}
+          className="text-blue-700 capitalize'"
+        >
+          {invoice.vendor}
+        </Link>
+      </td>
+      <td>
         {(+invoice.amount).toLocaleString()} <span>{invoice.currency}</span>
-      </p>
-      <Link to={`/invoice/${invoice.id}`} className="text-blue-700 capitalize'">
-        edit
-      </Link>
-    </li>
+      </td>
+    </tr>
   );
 };
 

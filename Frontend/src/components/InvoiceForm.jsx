@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchData } from "./utils.jsx";
 
-const InvoiceForm = ({ click = false }) => {
+const InvoiceForm = () => {
   const { reimbursementId, eventId } = useParams();
   const [imagePath, setImagePath] = useState("");
   const [expenseList, setExpenseList] = useState([]);
@@ -36,7 +38,6 @@ const InvoiceForm = ({ click = false }) => {
       headers: { "Content-Type": "multipart/form-data" },
     });
     console.log(resp);
-    setClick(!click);
     fetchData(
       `/invoices/invoices?reimbursement_id=${reimbursmentId}`,
       setInvoiceList,
@@ -44,11 +45,7 @@ const InvoiceForm = ({ click = false }) => {
   };
 
   return (
-    <form
-      onSubmit={submitFun}
-      className="invoiceForm"
-      style={{ display: click ? "flex" : "none" }}
-    >
+    <form onSubmit={submitFun} className="invoiceForm">
       <div className="image-upload">
         <img className="invoice-preview" src={imagePath}></img>
         <label htmlFor="invoice-file">

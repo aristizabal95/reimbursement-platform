@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { AuthContext, fetchData } from "./utils.jsx";
 import InvoiceList from "./InvoiceList.jsx";
 import axios from "../api/axios.js";
+import successIcon from "../assets/success-icon.svg";
+import addIcon from "../assets/add-icon.svg";
 
 const ReimbursementDetail = ({ props }) => {
   const [invoiceList, setInvoiceList] = useState([]);
-  const { reimbursementId } = useParams();
+  const { reimbursementId, eventId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,20 +25,27 @@ const ReimbursementDetail = ({ props }) => {
   };
 
   return (
-    <section className="w-full m-2">
-      <ul>
+    <section className="w-full m-2 flex flex-col">
+      <table className="w-full">
         {invoiceList.length != 0 ? (
           invoiceList.map((el) => <InvoiceList invoice={el}></InvoiceList>)
         ) : (
           <></>
         )}
-      </ul>
-      <div className="submit-container">
-        <button className="add-invoice brown">
-          <p>New Invoice</p>
-        </button>
-        <button onClick={submitReimbursement} className="add-invoice green">
+      </table>
+      <Link
+        className="mt-3 flex flex-row justify-center"
+        to={`/new-invoice/${reimbursementId}/${eventId}`}
+      >
+        <img src={addIcon}></img>
+      </Link>
+      <div className="m-10 flex flex-col">
+        <button
+          onClick={submitReimbursement}
+          className="flex text-white justify-center bg-[#4EAF51] rounded-[20px]"
+        >
           <p>Send to Dani</p>
+          <img className="pl-4" src={successIcon}></img>
         </button>
       </div>
     </section>

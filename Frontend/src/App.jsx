@@ -26,7 +26,7 @@ const router = createBrowserRouter(
             element={<ReimbursementDetail></ReimbursementDetail>}
           ></Route>
           <Route
-            path="/new-invoice/:reimbursementId/::eventId"
+            path="/new-invoice/:reimbursementId/:eventId"
             element={<InvoiceForm></InvoiceForm>}
           ></Route>
           <Route
