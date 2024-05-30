@@ -14,15 +14,20 @@ import RequiereAuth from "./components/RequiereAuth";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<MainLayout></MainLayout>}>
+    <Route>
       <Route element={<RequiereAuth />}>
-        <Route path="/" element={<HomePage></HomePage>}></Route>
-        <Route path="/task" element={<ApprovePage></ApprovePage>}></Route>
-        <Route
-          path="/invoice-detail/:reimbursmentId/:eventId"
-          element={<InvoiceDetail></InvoiceDetail>}
-        ></Route>
-        <Route path="/add-event" element={<CreateEvent></CreateEvent>}></Route>
+        <Route element={<MainLayout></MainLayout>}>
+          <Route path="/" element={<HomePage></HomePage>}></Route>
+          <Route path="/task" element={<ApprovePage></ApprovePage>}></Route>
+          <Route
+            path="/invoice-detail/:reimbursmentId/:eventId"
+            element={<InvoiceDetail></InvoiceDetail>}
+          ></Route>
+          <Route
+            path="/add-event"
+            element={<CreateEvent></CreateEvent>}
+          ></Route>
+        </Route>
       </Route>
       <Route path="/login" element={<Login></Login>}></Route>
     </Route>,

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "./utils";
 import signUpGoogle from "../assets/sign-up-google.svg";
+import factoredLogo from "../assets/factored-logo-text-primary.svg";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 
@@ -27,14 +28,12 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="container mx-auto m-10 items-center flex flex-col">
+      <img src={factoredLogo} className="w-[300px]"></img>
       {auth.roleId <= 3 && <Navigate to="/" replace></Navigate>}
-      <form id="login-form" className="login-form" onSubmit={login}>
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username"></input>
-      </form>
+      <form id="login-form" className="login-form" onSubmit={login}></form>
       <button type="submit" form="login-form">
-        Log in
+        <img src={signUpGoogle}></img>
       </button>
     </div>
   );
