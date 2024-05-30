@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchData } from "./utils.jsx";
 
@@ -6,7 +6,9 @@ const InvoiceForm = () => {
   const { reimbursementId, eventId } = useParams();
   const [imagePath, setImagePath] = useState("");
   const [expenseList, setExpenseList] = useState([]);
-  fetchData(`/expenses/expenses?event_id=${eventId}`, setExpenseList);
+  useEffect(() => {
+    fetchData(`/expenses/expenses?event_id=${eventId}`, setExpenseList);
+  }, []);
 
   const handleFileSelect = (e) => {
     var file = e.target.files[0];
