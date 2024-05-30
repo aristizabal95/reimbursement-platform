@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
-const InvoiceForm = ({ click = false, submitFun, expenseList = [] }) => {
+const InvoiceForm = ({ click = false }) => {
+  const { reimbursementId, eventId } = useParams();
   const [imagePath, setImagePath] = useState("");
+  const [expenseList, setExpenseList] = useState([]);
+  fetchData(`/expenses/expenses?event_id=${eventId}`, setExpenseList);
+
   const handleFileSelect = (e) => {
     var file = e.target.files[0];
     var reader = new FileReader();
@@ -14,6 +18,29 @@ const InvoiceForm = ({ click = false, submitFun, expenseList = [] }) => {
       false,
     );
     reader.readAsDataURL(file);
+  };
+
+  const submitFun = async (e) => {
+    //Send form to API
+    e.preventDefault();
+    const formData = new FormData();
+    const data = e.target;
+    formData.append("reimbursement_id", reimbursmentId);
+    formData.append("expense_id", data.expenseId.value);
+    formData.append("amount", data.amount.value);
+    formData.append("vendor", data.vendor.value);
+    formData.append("currency", data.currency.value);
+    formData.append("description", "");
+    formData.append("image", data["invoice-file"].files[0]);
+    const resp = await axios.post("/invoices/invoices", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    console.log(resp);
+    setClick(!click);
+    fetchData(
+      `/invoices/invoices?reimbursement_id=${reimbursmentId}`,
+      setInvoiceList,
+    );
   };
 
   return (
