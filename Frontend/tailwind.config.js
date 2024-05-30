@@ -12,6 +12,12 @@ export default {
       boxShadow: {
         nav: "0px 2px 30px rgba(0, 0, 0, 0.06)",
       },
+      borderColor: {
+        dark: "#C7C9D9",
+      },
+      colors: {
+        pending: "#F54336",
+      },
     },
   },
   plugins: [],

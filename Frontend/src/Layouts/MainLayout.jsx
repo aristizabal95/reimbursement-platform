@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 
 const MainLayout = () => {
   return (
-    <section className="flex h-full">
+    <section className="flex h-full w-full">
       <NavBar></NavBar>
       <Outlet></Outlet>
     </section>

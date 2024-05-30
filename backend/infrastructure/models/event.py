@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, text
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, text
 
 from backend.infrastructure.models.base import Base
 from backend.infrastructure.models.base_model import BaseModel
@@ -15,7 +15,7 @@ class Event(BaseModel, Base):
     title = Column(String)
     center_of_costs = Column(String)
     budget = Column(Integer, nullable=False)
-    status = Column(Integer, nullable=False)
+    is_active = Column(Boolean, nullable=False)
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     ends_at = Column(DateTime)
     currency = Column(Integer, nullable=False)
