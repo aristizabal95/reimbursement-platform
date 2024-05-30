@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "./utils";
+import signUpGoogle from "../assets/sign-up-google.svg";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 

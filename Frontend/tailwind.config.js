@@ -9,6 +9,9 @@ export default {
       gridTemplateColumns: {
         "70/30": "70% 28%",
       },
+      boxShadow: {
+        nav: "0px 2px 30px rgba(0, 0, 0, 0.06)",
+      },
     },
   },
   plugins: [],

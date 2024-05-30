@@ -1,12 +1,14 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import NavBar from '../components/NavBar'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 const MainLayout = () => {
-  return <>
-    <NavBar></NavBar>
-    <Outlet></Outlet>
-  </>;
-}
+  return (
+    <section className="flex h-full">
+      <NavBar></NavBar>
+      <Outlet></Outlet>
+    </section>
+  );
+};
 
-export default MainLayout
+export default MainLayout;
