@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, fetchData } from "./utils";
 import axios from "../api/axios";
+import CurrencySelector from "./CurrencySelector";
 
 const NewEventForm = () => {
   const [click, setClick] = useState(false);
@@ -85,19 +86,7 @@ const NewEventForm = () => {
           <label htmlFor="budget">Budget by person</label>
           <input type="tel" id="budget" name="budget" className="form-input" />
         </p>
-        <p className="form-item">
-          <label htmlFor="currency">Currency</label>
-          <select
-            name="currency"
-            id="currency"
-            defaultValue="USD"
-            className="form-input"
-          >
-            <option value="COP">COP</option>
-            <option value="USD">USD</option>
-            <option value="ARG">ARG</option>
-          </select>
-        </p>
+        <CurrencySelector></CurrencySelector>
         <p className="form-item">
           <label htmlFor="ends_at">End date</label>
           <input

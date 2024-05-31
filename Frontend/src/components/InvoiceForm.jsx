@@ -38,6 +38,7 @@ const InvoiceForm = () => {
     formData.append("amount", data.amount.value);
     formData.append("vendor", data.vendor.value);
     formData.append("currency", data.currency.value);
+    formData.append("dte", data.dte.value);
     formData.append("description", "");
     formData.append("image", data["invoice-file"].files[0]);
     const resp = await axios.post("/invoices/invoices", formData, {
