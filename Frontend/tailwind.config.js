@@ -17,6 +17,12 @@ export default {
       },
       colors: {
         pending: "#F54336",
+        lightWhite200: "#FFFFFF",
+        lightWhite: "#EAEAF1",
+        darkBlack: "#C7C9D9",
+        darkBlack700: "#191E3E",
+        darkBlack600: "#555770",
+        darkBlack400: "#C7C9D9",
       },
     },
   },

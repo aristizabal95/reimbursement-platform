@@ -12,9 +12,8 @@ const InvoiceList = ({ invoice }) => {
           {invoice.vendor}
         </Link>
       </td>
-      <td>
-        {(+invoice.amount).toLocaleString()} <span>{invoice.currency}</span>
-      </td>
+      <td>{(+invoice.amount).toLocaleString()}</td>
+      <td>{invoice.currency}</td>
     </tr>
   );
 };

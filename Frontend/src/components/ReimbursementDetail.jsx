@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { AuthContext, fetchData } from "./utils.jsx";
+import { fetchData } from "./utils.jsx";
 import InvoiceList from "./InvoiceList.jsx";
 import axios from "../api/axios.js";
-import successIcon from "../assets/success-icon.svg";
+
 import addIcon from "../assets/add-icon.svg";
+import SuccessButton from "./SuccessButton.jsx";
 
 const ReimbursementDetail = ({ props }) => {
   const [invoiceList, setInvoiceList] = useState([]);
@@ -39,15 +40,11 @@ const ReimbursementDetail = ({ props }) => {
       >
         <img src={addIcon}></img>
       </Link>
-      <div className="m-10 flex flex-col">
-        <button
-          onClick={submitReimbursement}
-          className="flex text-white justify-center bg-[#4EAF51] rounded-[20px]"
-        >
-          <p>Send to Dani</p>
-          <img className="pl-4" src={successIcon}></img>
-        </button>
-      </div>
+      <SuccessButton
+        onClick={submitReimbursement}
+        text="Send"
+        className="m-10"
+      ></SuccessButton>
     </section>
   );
 };

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchData } from "./utils.jsx";
+import cameraIcon from "../assets/camera-icon.svg";
+import SuccessButton from "./SuccessButton.jsx";
+import CurrencySelector from "./CurrencySelector.jsx";
 
 const InvoiceForm = () => {
   const { reimbursementId, eventId } = useParams();
   const [imagePath, setImagePath] = useState("");
   const [expenseList, setExpenseList] = useState([]);
+
   useEffect(() => {
     fetchData(`/expenses/expenses?event_id=${eventId}`, setExpenseList);
   }, []);
@@ -47,46 +51,104 @@ const InvoiceForm = () => {
   };
 
   return (
-    <form onSubmit={submitFun} className="invoiceForm">
-      <div className="image-upload">
-        <img className="invoice-preview" src={imagePath}></img>
-        <label htmlFor="invoice-file">
-          <p> Upload File</p>
+    <form
+      onSubmit={submitFun}
+      className="flex flex-col w-full space-y-3 m-4 xl:m-10"
+    >
+      <div className="bg-[#EAEAF1]">
+        <label className="flex flex-col items-center" htmlFor="invoice-file">
+          <div className="flex flex-col m-10 items-center xl:w-[30%] sm:w-[200px]">
+            <img
+              className="object-cover"
+              src={imagePath}
+              style={{ display: imagePath == "" ? "none" : "" }}
+            ></img>
+            <img
+              className="w-[24px] h-[24px]"
+              src={cameraIcon}
+              style={{ display: imagePath != "" ? "none" : "" }}
+            ></img>
+            <p
+              style={{ display: imagePath != "" ? "none" : "" }}
+              className="text-sm text-lightWithe"
+            >
+              Take screenshot or browse device
+            </p>
+          </div>
+          <input
+            id="invoice-file"
+            style={{ display: "none" }}
+            type="file"
+            accept="image/*"
+            onChange={handleFileSelect}
+            required
+          />
         </label>
-        <input
-          id="invoice-file"
-          type="file"
-          accept="image/*"
-          onChange={handleFileSelect}
-          required
-        />
       </div>
-      <p className="invoice-question">
-        <label htmlFor="expenseId">Expense</label>
-        <select name="expenseId" id="expenseId">
+      <p className="flex flex-col justify-start">
+        <label htmlFor="expenseId" className="text-darkBlack700">
+          Expense
+        </label>
+        <select
+          name="expenseId"
+          id="expenseId"
+          className="m-1 pt-1 border rounded-[20px] bg-white pl-1.5"
+        >
           {expenseList.map((e) => {
             return <option value={e.id}>{e.name}</option>;
           })}
         </select>
       </p>
-      <p className="invoice-question">
-        <label htmlFor="vendor">Vendor</label>
-        <input type="text" id="vendor" name="vendor" required></input>
+      <p className="flex flex-col justify-start">
+        <label htmlFor="dte" className="text-darkBlack700">
+          Date
+        </label>
+        <input
+          className="bg-white border rounded-[20px] m-1 pt-1 pl-1.5 bg-white"
+          type="date"
+          id="dte"
+          name="dte"
+          required
+        ></input>
       </p>
-      <p className="invoice-question">
-        <label htmlFor="amount">Amount</label>
-        <input type="tel" id="amount" name="amount" required></input>
-        <select name="currency" id="currency" defaultValue="USD">
-          <option value="COP">COP</option>
-          <option value="USD">USD</option>
-          <option value="ARG">ARG</option>
-        </select>
+      <p className="flex flex-col justify-start">
+        <label htmlFor="vendor" className="text-darkBlack700">
+          Vendor
+        </label>
+        <input
+          className="border rounded-[20px] m-1 pt-1 pl-1.5 bg-white"
+          type="text"
+          id="vendor"
+          name="vendor"
+          required
+        ></input>
       </p>
-      <button className="submit-expense" type="submit">
-        Add expense
-      </button>
+      <p className="flex flex-col justify-start">
+        <label htmlFor="amount" className="text-darkBlack700">
+          Amount
+        </label>
+        <input
+          className="border rounded-[20px] m-1 pt-1 pl-1.5 bg-white"
+          type="tel"
+          id="amount"
+          name="amount"
+          required
+        ></input>
+      </p>
+      <p className="flex flex-col justify-start">
+        <lable htmlFor="currency" className="text-darkBlack700">
+          Currency
+        </lable>
+        <CurrencySelector
+          name="currency"
+          className="m-1 pt-1 border rounded-[20px] bg-white pl-1.5"
+        />
+      </p>
+      <SuccessButton text="Add Invoice" className="p-2"></SuccessButton>
     </form>
   );
 };
+
+/* field */
 
 export default InvoiceForm;
