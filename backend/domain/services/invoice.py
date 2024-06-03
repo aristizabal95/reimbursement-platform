@@ -1,6 +1,8 @@
+import base64
 import logging
 import os
 
+import requests
 from boto3 import session
 from botocore.client import Config
 from fastapi import UploadFile
@@ -28,6 +30,7 @@ class InvoiceService:
         self.INVOICE_PATH = "reimbursement-platform/receipts"
 
     def upload_file(self, reimbursement_id: int, image: UploadFile, **_):
+        # TODO: Remove this vulnerability!!
         image_url = self.INVOICE_PATH + f"/{reimbursement_id}/{image.filename}"
         # TODO: Check if this url is in the db before uploading
         try:
@@ -35,6 +38,15 @@ class InvoiceService:
         except Exception as e:
             raise e
         return image_url
+
+    @classmethod
+    def parse_image(self, image: UploadFile, **_):
+        b64_image = base64.b64encode(image.file.read()).decode("utf-8")
+        response = requests.post(
+            "http://18.232.81.55:8003/parser/extract",
+            json={"receipt_base64": b64_image},
+        )
+        return response.json()
 
     def create_invoice(self, **kwargs):
         image_url = self.upload_file(**kwargs)

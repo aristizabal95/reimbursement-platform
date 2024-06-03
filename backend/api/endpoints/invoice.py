@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form, UploadFile
 
 import backend.api.schema as sch
 from backend.domain.services.invoice import InvoiceService
@@ -16,6 +16,11 @@ def create_invoice(invoice: sch.InvoiceUpload = Depends()):
 def get_invoice(filters: sch.Invoice = Depends()):
     invoice_service = InvoiceService()
     return invoice_service.get_invoice(**filters.model_dump())
+
+
+@router.post("/invoices/parser")
+def parse_image(file: UploadFile = Form(...)):
+    return InvoiceService.parse_image(file)
 
 
 @router.put("/invoices")

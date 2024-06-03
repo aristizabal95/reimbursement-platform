@@ -4,9 +4,11 @@ import { fetchData } from "./utils.jsx";
 import cameraIcon from "../assets/camera-icon.svg";
 import SuccessButton from "./SuccessButton.jsx";
 import CurrencySelector from "./CurrencySelector.jsx";
+import axios from "../api/axios.js";
 
 const InvoiceForm = () => {
   const { reimbursementId, eventId } = useParams();
+  const [placeholder, setPlaceHolder] = useState({});
   const [imagePath, setImagePath] = useState("");
   const [expenseList, setExpenseList] = useState([]);
 
@@ -19,9 +21,15 @@ const InvoiceForm = () => {
     var reader = new FileReader();
     reader.addEventListener(
       "load",
-      () => {
+      async () => {
         const src = reader.result.replace("[data:*/*;base64,]", "");
         setImagePath(src);
+        const formData = new FormData();
+        formData.append("file", file);
+        const resp = await axios.post("/invoices/invoices/parser", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setPlaceHolder(resp.data);
       },
       false,
     );
@@ -109,6 +117,7 @@ const InvoiceForm = () => {
           type="date"
           id="dte"
           name="dte"
+          value={placeholder ? placeholder.date : ""}
           required
         ></input>
       </p>
@@ -121,6 +130,7 @@ const InvoiceForm = () => {
           type="text"
           id="vendor"
           name="vendor"
+          value={placeholder ? placeholder.vendor : ""}
           required
         ></input>
       </p>
@@ -133,6 +143,7 @@ const InvoiceForm = () => {
           type="tel"
           id="amount"
           name="amount"
+          value={placeholder ? placeholder.total_amount : ""}
           required
         ></input>
       </p>
