@@ -4,23 +4,25 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import ApprovePage from "./pages/ApprovePage";
 import MainLayout from "./Layouts/MainLayout";
-import InvoiceDetail from "./components/ReimbursementDetail";
-import CreateEvent from "./pages/CreateEvent";
 import Login from "./components/Login";
 import RequiereAuth from "./components/RequiereAuth";
 import InvoiceForm from "./components/InvoiceForm";
 import ReimbursementDetail from "./components/ReimbursementDetail";
+import TaskList from "./components/TaskList";
+import ReimbursmentList from "./components/ReimbursmentList";
+import NewEventForm from "./components/NewEventForm";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route element={<RequiereAuth />}>
         <Route element={<MainLayout></MainLayout>}>
-          <Route path="/" element={<HomePage></HomePage>}></Route>
-          <Route path="/task" element={<ApprovePage></ApprovePage>}></Route>
+          <Route
+            path="/"
+            element={<ReimbursmentList></ReimbursmentList>}
+          ></Route>
+          <Route path="/task" element={<TaskList></TaskList>}></Route>
           <Route
             path="/invoice-detail/:reimbursementId/:eventId"
             element={<ReimbursementDetail></ReimbursementDetail>}
@@ -29,9 +31,10 @@ const router = createBrowserRouter(
             path="/new-invoice/:reimbursementId/:eventId"
             element={<InvoiceForm></InvoiceForm>}
           ></Route>
+
           <Route
             path="/add-event"
-            element={<CreateEvent></CreateEvent>}
+            element={<NewEventForm></NewEventForm>}
           ></Route>
         </Route>
       </Route>
