@@ -31,7 +31,6 @@ const router = createBrowserRouter(
             path="/new-invoice/:reimbursementId/:eventId"
             element={<InvoiceForm></InvoiceForm>}
           ></Route>
-
           <Route
             path="/add-event"
             element={<NewEventForm></NewEventForm>}

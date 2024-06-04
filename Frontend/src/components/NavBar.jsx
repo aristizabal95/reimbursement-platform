@@ -1,10 +1,4 @@
-import React, { useState } from "react";
 import factorLogo from "../assets/factored-logo.svg";
-import rightArrow from "../assets/right-arrow.svg";
-import diamond from "../assets/diamond-icon.svg";
-import taskIcon from "../assets/task-icon.svg";
-import receiptIcon from "../assets/receipt-icon.svg";
-import menu from "../assets/menu.svg";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
