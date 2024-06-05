@@ -1,6 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const TaskDetail = ({ detail = {} }) => {
+const TaskDetail = () => {
+  const [detail, setDetail] = useState([]);
+  const { reimbursementId } = useParams();
+
+  useEffect(() => {
+    try {
+      fetchData(
+        `/invoices/invoices?reimbursement_id=${reimbursementId}`,
+        setDetail,
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [reimbId]);
+
   // Taken from:
   // https://codesandbox.io/p/sandbox/image-magnifier-3jsqs?file=%2Fsrc%2FApp.tsx%3A57%2C1-85%2C14&from-embed=
   const [[x, y], setXY] = useState([0, 0]);
