@@ -50,7 +50,7 @@ const InvoiceForm = () => {
     formData.append("amount", data.amount.value);
     formData.append("vendor", data.vendor.value);
     formData.append("currency", data.currency.value);
-    formData.append("dte", data.dte.value);
+    formData.append("transaction_date", data.transaction_date.value);
     formData.append("description", "");
     formData.append("image", data["invoice-file"].files[0]);
     const resp = await axios.post("/invoices/invoices", formData, {
@@ -125,14 +125,14 @@ const InvoiceForm = () => {
           </select>
         </p>
         <p className="flex flex-col justify-start">
-          <label htmlFor="dte" className="text-darkBlack700">
+          <label htmlFor="transaction_date" className="text-darkBlack700">
             Date
           </label>
           <input
             className="bg-white border rounded-[20px] m-1 pt-1 pl-1.5 bg-white"
             type="date"
-            id="dte"
-            name="dte"
+            id="transaction_date"
+            name="transaction_date"
             value={placeholder.date}
             required
           ></input>

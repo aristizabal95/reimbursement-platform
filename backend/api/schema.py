@@ -58,7 +58,6 @@ class Expense(BaseModel):
 class Event(BaseModel):
     id: Optional[int] = None
     center_of_costs: Optional[str] = None
-    # TODO: Make a table Event_status with id and desc and link to this field
     status: Optional[bool] = None
 
 
