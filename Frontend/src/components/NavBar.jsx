@@ -11,8 +11,8 @@ const NavBar = () => {
       <Link className="text-blue-600 underline" to="/task">
         Task
       </Link>
-      <Link className="text-blue-600 underline" to="/add-event">
-        New event
+      <Link className="text-blue-600 underline" to="/event-list">
+        Events
       </Link>
     </nav>
   );

@@ -16,7 +16,7 @@ class Invoice(Base, BaseModel):
 
     url = Column(String, nullable=False)
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
-    dte = Column(Date, nullable=False)
+    transaction_date = Column(Date, nullable=False)
     currency = Column(String, nullable=False)
     vendor = Column(String, nullable=False)
     amount = Column(Integer, nullable=False)
