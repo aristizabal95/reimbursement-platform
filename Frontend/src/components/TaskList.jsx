@@ -14,7 +14,7 @@ const TaskList = () => {
   }, []);
 
   return (
-    <ul className="m-3 space-y-1">
+    <ul className="m-3 space-y-1 xl:w-[50%]">
       {tasks.map((el) => {
         const createDate = new Date(el.created_at);
         return (

@@ -16,7 +16,7 @@ const ReimbursmentList = () => {
 
   return (
     <>
-      <ul className="m-3 space-y-3">
+      <ul className="m-3 space-y-3 w-full xl:w-[50%]">
         {reimbursements.map((info) => {
           const createDate = new Date(info.created_at);
           return (
