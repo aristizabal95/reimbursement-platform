@@ -13,6 +13,7 @@ import TaskList from "./components/TaskList";
 import ReimbursmentList from "./components/ReimbursmentList";
 import NewEventForm from "./components/NewEventForm";
 import EventList from "./components/EventList";
+import TaskDetail from "./components/TaskDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,10 @@ const router = createBrowserRouter(
             element={<NewEventForm></NewEventForm>}
           ></Route>
           <Route path="/event-list" element={<EventList></EventList>}></Route>
+          <Route
+            path="/task-detail/:reimbursementId"
+            element={<TaskDetail></TaskDetail>}
+          ></Route>
         </Route>
       </Route>
       <Route path="/login" element={<Login></Login>}></Route>

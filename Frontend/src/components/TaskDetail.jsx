@@ -1,91 +1,67 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import ImageMagnifier from "./ImageMagnifier";
+import { fetchData } from "./utils";
 
 const TaskDetail = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [detail, setDetail] = useState([]);
   const { reimbursementId } = useParams();
 
   useEffect(() => {
-    try {
-      fetchData(
-        `/invoices/invoices?reimbursement_id=${reimbursementId}`,
-        setDetail,
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }, [reimbId]);
+    fetchData(
+      `/invoices/invoices?reimbursement_id=${reimbursementId}`,
+      setDetail,
+    );
+  }, []);
 
-  // Taken from:
-  // https://codesandbox.io/p/sandbox/image-magnifier-3jsqs?file=%2Fsrc%2FApp.tsx%3A57%2C1-85%2C14&from-embed=
-  const [[x, y], setXY] = useState([0, 0]);
-  const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
-  const [showMagnifier, setShowMagnifier] = useState(false);
-
-  const handleMouseEnter = (e) => {
-    // update image size and turn-on magnifier
-    const elem = e.currentTarget;
-    const { width, height } = elem.getBoundingClientRect();
-    elem.style.opacity = "0.5";
-    setSize([width, height]);
-    setShowMagnifier(true);
+  const nextSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === detail.length - 1 ? 0 : prevIndex + 1,
+    );
   };
 
-  const handleMouseMove = (e) => {
-    // update cursor position
-    const elem = e.currentTarget;
-    const { top, left } = elem.getBoundingClientRect();
-
-    // calculate cursor position on the image
-    const x = e.pageX - left - window.scrollX;
-    const y = e.pageY - top - window.scrollY;
-    setXY([x, y]);
+  const prevSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? detail.length - 1 : prevIndex - 1,
+    );
   };
-
-  const handleMouseLeave = (e) => {
-    const elem = e.currentTarget;
-    elem.style.opacity = "1";
-    setShowMagnifier(false);
-  };
-
-  const [magnifierHeight, magnifieWidth, zoomLevel] = [100, 100, 5];
-  const divStyle = {
-    display: showMagnifier ? "" : "none",
-    // set size of magnifier
-    height: `${magnifierHeight}px`,
-    width: `${magnifieWidth}px`,
-    top: `${y - magnifierHeight / 2}px`,
-    left: `${x - magnifieWidth / 2}px`,
-    backgroundImage: `url('${detail.url}')`,
-    backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel}px`,
-    backgroundPositionX: `${-x * zoomLevel + magnifieWidth / 2}px`,
-    backgroundPositionY: `${-y * zoomLevel + magnifierHeight / 2}px`,
-  };
-
-  const createDate = new Date(detail.created_at);
 
   return (
-    <section className="invoicedetail">
-      <figure className="invoicefig">
-        <img
-          onMouseEnter={handleMouseEnter}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          className="sourceref"
-          alt="source"
-          src={detail.url}
-        ></img>
-        <div className="targetdiv" style={divStyle}></div>
-      </figure>
-      <div className="invoicefields">
-        <header>
-          <div>{createDate.toLocaleDateString()}</div>
-          <div>{detail.expense}</div>
-        </header>
-        <div className="inputcontainer">
-          <div>{detail.vendor}</div>
-          <div>{`$${detail.amount.toLocaleString()} ${detail.currency}`}</div>
-        </div>
-      </div>
+    <section className="grid grid-cols-1 xl:grid-cols-4">
+      <ul className="m-3 space-y-2">
+        {detail.map((el, i) => {
+          const createDate = new Date(el.created_at);
+          const divStyle = i == activeIndex ? { backgroundColor: "coral" } : {};
+          return (
+            <li
+              className="grid grid-cols-4 border-b border-dashed border-dark"
+              style={divStyle}
+            >
+              <p>{el.vendor}</p>
+              <p>{el.expense}</p>
+              <p>
+                $ {el.amount.toLocaleString()}{" "}
+                <span className="text-green-700">{el.currency}</span>
+              </p>
+              <button></button>
+              <p className="text-red-700">{createDate.toLocaleDateString()}</p>
+            </li>
+          );
+        })}
+      </ul>
+      <section className="xl:col-span-3">
+        <button onClick={prevSlide} className="left-0 text-5xl">
+          &lt;
+        </button>
+        <ImageMagnifier
+          detail={detail.length > 0 ? detail[activeIndex] : { url: "" }}
+        ></ImageMagnifier>
+        <button onClick={nextSlide} className="text-5xl">
+          &gt;
+        </button>
+      </section>
     </section>
   );
 };

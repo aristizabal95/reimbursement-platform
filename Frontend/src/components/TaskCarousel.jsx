@@ -22,7 +22,7 @@ const TaskCarousel = ({ detail = [], onSubmit }) => {
       <button onClick={prevSlide} className="btn prev">
         &lt;
       </button>
-      <TaskDetail detail={detail[activeIndex]}></TaskDetail>
+
       <button onClick={nextSlide} className="btn next">
         &gt;
       </button>
