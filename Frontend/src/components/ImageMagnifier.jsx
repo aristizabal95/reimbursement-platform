@@ -33,7 +33,7 @@ const ImageMagnifier = ({ detail }) => {
     setShowMagnifier(false);
   };
 
-  const [magnifierHeight, magnifieWidth, zoomLevel] = [100, 100, 5];
+  const [magnifierHeight, magnifieWidth, zoomLevel] = [96, 130, 4];
   const divStyle = {
     display: showMagnifier ? "" : "none",
     // set size of magnifier
@@ -48,7 +48,7 @@ const ImageMagnifier = ({ detail }) => {
   };
 
   return (
-    <figure className="invoicefig">
+    <figure className="relative overflow-hidden block">
       <img
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
@@ -57,7 +57,10 @@ const ImageMagnifier = ({ detail }) => {
         alt="source"
         src={detail.url}
       ></img>
-      <div className="targetdiv" style={divStyle}></div>
+      <div
+        className="absolute opacity-100 pl-4 border-gray bg-white bg-no-repeat pointer-events-none"
+        style={divStyle}
+      ></div>
     </figure>
   );
 };

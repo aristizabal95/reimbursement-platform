@@ -52,12 +52,14 @@ const TaskDetail = () => {
         })}
       </ul>
       <section className="xl:col-span-3">
-        <button onClick={prevSlide} className="left-0 text-5xl">
+        <button onClick={prevSlide} className="absolute left-0">
           &lt;
         </button>
-        <ImageMagnifier
-          detail={detail.length > 0 ? detail[activeIndex] : { url: "" }}
-        ></ImageMagnifier>
+        <div className="w-[450px] h-auto">
+          <ImageMagnifier
+            detail={detail.length > 0 ? detail[activeIndex] : { url: "" }}
+          ></ImageMagnifier>
+        </div>
         <button onClick={nextSlide} className="text-5xl">
           &gt;
         </button>
