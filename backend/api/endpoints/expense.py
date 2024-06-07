@@ -7,9 +7,10 @@ router = APIRouter()
 
 
 @router.post("/expenses")
-def create_expense(expense: dict):
+def create_expense(e: sch.ExpensePost):
     expense_service = ExpenseService()
-    return expense_service.create_expense(expense)
+    [expense_service.create_expense(expense.model_dump()) for expense in e.expenses]
+    return ""
 
 
 @router.get("/expenses")

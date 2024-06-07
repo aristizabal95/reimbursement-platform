@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from fastapi import Form, UploadFile
 from pydantic import BaseModel
@@ -50,9 +50,19 @@ class ReimbursementInfo(BaseModel):
     created_at: datetime
 
 
-class Expense(BaseModel):
+class ExpenseBase(BaseModel):
+    event_id: Optional[int] = None
+    budget: Optional[str] = None
+    description: Optional[str] = None
+    name: Optional[str] = None
+
+
+class Expense(ExpenseBase):
     id: Optional[int] = None
-    event_id: Optional[str] = None
+
+
+class ExpensePost(BaseModel):
+    expenses: List[ExpenseBase]
 
 
 class Event(BaseModel):

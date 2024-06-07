@@ -20,7 +20,6 @@ class AbstractRepository:
         with self.session as session:
             try:
                 new_instance = self.model(**instance_dict)
-                print(new_instance)
                 session.add(new_instance)
                 session.commit()
             except sqlalchemy.exc.IntegrityError as exc:

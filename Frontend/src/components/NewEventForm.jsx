@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const NewEventForm = () => {
   const navigate = useNavigate();
-  const [eventList, setEventList] = useState([]);
   const [expenseList, setExpenseList] = useState([]);
   const { auth } = useContext(AuthContext);
 
@@ -19,6 +18,7 @@ const NewEventForm = () => {
       JSON.stringify({
         title: data.title.value,
         center_of_costs: data.center_of_costs.value,
+        is_active: true,
         budget: data.budget.value,
         currency: data.currency.value,
         ends_at: data.ends_at.value,
@@ -27,7 +27,10 @@ const NewEventForm = () => {
     const ee = expenseList.map((el) => {
       return { event_id: event.data.id, ...el };
     });
-    const expense = await axios.post("/expenses/expenses", JSON.stringify(ee));
+    const expense = await axios.post(
+      "/expenses/expenses",
+      JSON.stringify({ expenses: ee }),
+    );
     setExpenseList([]);
     navigate("/event-list");
   };
@@ -38,7 +41,7 @@ const NewEventForm = () => {
     const newExpense = {
       budget: e.target.form["budget-exp"].value,
       name: e.target.form["expense-name"].value,
-      desc: e.target.form.desc.value,
+      description: e.target.form.description.value,
     };
     setExpenseList([...expenseList, newExpense]);
   };
@@ -81,7 +84,10 @@ const NewEventForm = () => {
         <lable htmlFor="currency" className="text-darkBlack700">
           Currency
         </lable>
-        <CurrencySelector className="m-1 pt-1 border rounded-[20px] bg-white pl-1.5"></CurrencySelector>
+        <CurrencySelector
+          name="currency"
+          className="m-1 pt-1 border rounded-[20px] bg-white pl-1.5"
+        ></CurrencySelector>
       </p>
       <p className="flex flex-col justify-start">
         <label htmlFor="ends_at" className="text-darkBlack700">
@@ -131,11 +137,11 @@ const NewEventForm = () => {
             />
           </p>
           <p className="flex flex-row justify-evenly items-center">
-            <label htmlFor="desc">Description</label>
+            <label htmlFor="description">Description</label>
             <input
               type="text"
-              id="desc"
-              name="desc"
+              id="description"
+              name="description"
               className="border rounded-[20px] bg-white"
             />
           </p>
@@ -151,8 +157,9 @@ const NewEventForm = () => {
       </form>
       <div className="flex justify-center mt-4 font-medium">
         <SuccessButton
-          className="p-2 font-medium"
+          type="submit"
           text="Create Event"
+          className="p-2 font-medium"
         ></SuccessButton>
       </div>
     </form>
