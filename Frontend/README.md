@@ -1,14 +1,36 @@
-# React + Vite
+# Factored Reimbursements Platform - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend application for the Factored Reimbursements platform, built with React and Vite.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+These instructions will help you set up and run the project on your local machine for development and testing purposes.
 
-Install stylelint
+### Prerequisites
 
-$ npm init stylelint
+Make sure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
 
-It will create a new .stylelintrc.json file
+### Installation
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/your-username/factored-reimbursements-frontend.git
+
+2. **Navigate to the project directory**:
+
+     ```bash
+   cd frontend
+
+3. **Install the dependencies**:
+
+
+     ```bash
+   yarn
+
+4. **Run the developer server**:
+
+     ```bash
+   yarn dev
+
+  This will start the Vite development server. Open your browser and navigate to http://localhost:5173 to see the application running.
