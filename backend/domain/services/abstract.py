@@ -12,14 +12,14 @@ class AbstractService(ABC):
     def repository(self) -> AbstractRepository:
         return self.__repository
 
-    def create(self, entity):
-        return self.repository.add(entity)
+    def create(self, resource):
+        return self.repository.add(resource)
 
     def get(self, **filters):
         return self.repository.get_by(**filters)
 
-    def update(self, entity):
-        return self.repository.edit(entity)
+    def update(self, resource):
+        return self.repository.edit(resource)
 
-    def delete(self, entity_id):
-        return self.repository.delete(entity_id)
+    def delete(self, resource_id):
+        return self.repository.delete(resource_id)
