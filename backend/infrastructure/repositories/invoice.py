@@ -7,7 +7,7 @@ class InvoiceRepository(AbstractRepository):
     def __init__(self) -> None:
         super().__init__(Invoice)
 
-    def get_invoice_info(self, **filters):
+    def get_by(self, **filters):
         instances = (
             self.session.query(self.model, Expense)
             .join(Expense)
