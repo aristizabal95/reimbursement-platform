@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 from backend.infrastructure.repositories.abstract import AbstractRepository
 
@@ -8,7 +8,6 @@ class AbstractService(ABC):
         self.__repository = repository
 
     @property
-    @abstractmethod
     def repository(self) -> AbstractRepository:
         return self.__repository
 
