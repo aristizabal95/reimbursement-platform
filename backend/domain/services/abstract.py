@@ -1,5 +1,6 @@
 from abc import ABC
 
+from backend.exceptions import InstanceNotFoundException
 from backend.infrastructure.repositories.abstract import AbstractRepository
 
 
@@ -17,8 +18,17 @@ class AbstractService(ABC):
     def get(self, **filters):
         return self.repository.get_by(**filters)
 
-    def update(self, resource):
-        return self.repository.edit(resource)
+    def get_by_id(self, id: int):
+        results = self.repository.get_by(id=id)
+        try:
+            return results[0]
+        except IndexError:
+            raise InstanceNotFoundException()
+
+    def update(self, id: int, resource):
+        # resource["id"] = id
+        # return self.repository.edit(resource)
+        return self.repository.update(id, **resource)
 
     def delete(self, resource_id):
         return self.repository.delete(resource_id)

@@ -9,6 +9,3 @@ class ReimbursementService(AbstractService):
     def create(self, reimbursement):
         # TODO: Check the user don't have already a reimbursement for this event!
         super().create(reimbursement)
-
-    def get(self, **filters):
-        return self.__repository.get_reimbursements_info(**filters)

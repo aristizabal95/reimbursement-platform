@@ -60,7 +60,7 @@ class InvoiceService(AbstractService):
         return self.repository.add(kwargs)
 
     def get(self, **filters):
-        results = self.repository.get_invoice_info(**filters)
+        results = self.repository.get_by(**filters)
         for result in results:
             try:
                 result["url"] = self.s3_client.generate_presigned_url(
