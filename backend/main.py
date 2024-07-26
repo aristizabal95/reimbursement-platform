@@ -21,14 +21,21 @@ origins = ["http://localhost:3000"]
 
 logger.info("Adding middleware!")
 
-app.include_router(event.router, prefix="/events", tags=["events"])
-app.include_router(expense.router, prefix="/expenses", tags=["expenses"])
-app.include_router(invoice.router, prefix="/invoices", tags=["invoices"])
+event_router = event.EventRouter().router
+expense_router = expense.ExpenseRouter().router
+invoice_router = invoice.InvoiceRouter().router
+user_event_router = user_event.UserEventRouter().router
+user_router = user.UserRouter().router
+reimbursement_router = reimbursement.ReimbursementRouter().router
+
+app.include_router(event_router, prefix="/events", tags=["events"])
+app.include_router(expense_router, prefix="/expenses", tags=["expenses"])
+app.include_router(invoice_router, prefix="/invoices", tags=["invoices"])
 app.include_router(
-    reimbursement.router, prefix="/reimbursements", tags=["reimbursements"]
+    reimbursement_router, prefix="/reimbursements", tags=["reimbursements"]
 )
-app.include_router(user_event.router, prefix="/user-events", tags=["user-events"])
-app.include_router(user.router, prefix="/users", tags=["users"])
+app.include_router(user_event_router, prefix="/user-events", tags=["user-events"])
+app.include_router(user_router, prefix="/users", tags=["users"])
 
 if __name__ == "__main__":
     config = uvicorn.Config(
