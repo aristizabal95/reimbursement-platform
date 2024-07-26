@@ -1,35 +1,21 @@
-from fastapi import APIRouter, Depends, Form, UploadFile
+from fastapi import Form, UploadFile
 
-import backend.api.schema as sch
+from backend.api.endpoints.abstract import AbstractRouter
+from backend.api.schemas.invoice import InvoiceBase, InvoiceIn, InvoiceOut
+from backend.api.schemas.partial import Partial
 from backend.domain.services.invoice import InvoiceService
 
-router = APIRouter()
 
+class InvoiceRouter(AbstractRouter):
+    def __init__(self):
+        super().__init__(InvoiceService(), InvoiceIn, Partial[InvoiceBase], InvoiceOut)
 
-@router.post("/invoices")
-def create_invoice(invoice: sch.InvoiceUpload = Depends()):
-    invoice_service = InvoiceService()
-    return invoice_service.create_invoice(**invoice.__dict__)
+    def parse_image(self, file: UploadFile = Form(...)):
+        return InvoiceService.parse_image(file)
 
+    def _setup_routes(self):
+        super()._setup_routes()
 
-@router.get("/invoices")
-def get_invoice(filters: sch.Invoice = Depends()):
-    invoice_service = InvoiceService()
-    return invoice_service.get_invoice(**filters.model_dump())
-
-
-@router.post("/invoices/parser")
-def parse_image(file: UploadFile = Form(...)):
-    return InvoiceService.parse_image(file)
-
-
-@router.put("/invoices")
-def update_invoice(invoice: dict):
-    invoice_service = InvoiceService()
-    return invoice_service.update_invoice(invoice)
-
-
-@router.delete("/invoices")
-def delete_invoice(invoice_id: int):
-    invoice_service = InvoiceService()
-    return invoice_service.delete_invoice(invoice_id)
+        @self.router.post("/parser")
+        def parse_image(file: UploadFile = Form(...)):
+            return self.parse_image(file)

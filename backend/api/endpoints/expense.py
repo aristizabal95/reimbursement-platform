@@ -1,31 +1,29 @@
-from fastapi import APIRouter, Depends
+from fastapi import HTTPException
 
-import backend.api.schema as sch
+from backend.api.endpoints.abstract import AbstractRouter
+from backend.api.schemas.expense import ExpenseBatchIn, ExpenseIn, ExpenseOut
+from backend.api.schemas.partial import Partial
 from backend.domain.services.expense import ExpenseService
-
-router = APIRouter()
-
-
-@router.post("/expenses")
-def create_expense(e: sch.ExpensePost):
-    expense_service = ExpenseService()
-    [expense_service.create_expense(expense.model_dump()) for expense in e.expenses]
-    return ""
+from backend.exceptions import InvalidInputValuesException
 
 
-@router.get("/expenses")
-def get_expense(filters: sch.Expense = Depends()):
-    expense_service = ExpenseService()
-    return expense_service.get_expense(**filters.model_dump())
+class ExpenseRouter(AbstractRouter):
+    def __init__(self):
+        super().__init__(ExpenseService(), ExpenseIn, Partial[ExpenseIn], ExpenseOut)
 
+    def create_batch(self, resources: ExpenseBatchIn):
+        try:
+            resources_info = [
+                self._service.create(resource.model_dump())
+                for resource in resources.expenses
+            ]
+        except InvalidInputValuesException as e:
+            raise HTTPException(422, detail=str(e))
+        return resources_info
 
-@router.put("/expenses")
-def update_expense(expense: dict):
-    expense_service = ExpenseService()
-    return expense_service.update_expense(expense)
+    def _setup_routes(self):
+        super()._setup_routes()
 
-
-@router.delete("/expenses")
-def delete_expense(expense_id: int):
-    expense_service = ExpenseService()
-    return expense_service.delete_expense(expense_id)
+        @self.router.post("/batch", responses={422: {}})
+        def create_batch(resources: ExpenseBatchIn):
+            return self.create_batch(resources)

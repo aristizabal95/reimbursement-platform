@@ -1,40 +1,14 @@
-from typing import List
-
-from fastapi import APIRouter, Depends
-
-import backend.api.schema as sch
+from backend.api.endpoints.abstract import AbstractRouter
+from backend.api.schemas.partial import Partial
+from backend.api.schemas.reimbursement import ReimbursementIn, ReimbursementOut
 from backend.domain.services.reimbursement import ReimbursementService
 
-router = APIRouter()
 
-
-@router.post("/reimbursements")
-def create_reimbursement(reimbursement: dict):
-    reimbursement_service = ReimbursementService()
-    return reimbursement_service.create_reimbursement(reimbursement)
-
-
-@router.get("/reimbursements")
-def get_reimbursement(
-    filters: sch.Reimbursement = Depends(),
-) -> List[sch.ReimbursementInfo]:
-    reimbursement_service = ReimbursementService()
-    results = reimbursement_service.get_reimbursement(**filters.model_dump())
-    return [sch.ReimbursementInfo(**result) for result in results]
-
-
-@router.put("/reimbursements")
-def update_reimbursement(reimbursement: dict):
-    reimbursement_service = ReimbursementService()
-    return reimbursement_service.update_reimbursement(reimbursement)
-
-
-@router.patch("/reimbursements")
-def patch_reimbursement(fields: sch.Reimbursement = Depends()):
-    return ReimbursementService().add(**fields.model_dump())
-
-
-@router.delete("/reimbursements")
-def delete_reimbursement(reimbursement_id: int):
-    reimbursement_service = ReimbursementService()
-    return reimbursement_service.delete_reimbursement(reimbursement_id)
+class ReimbursementRouter(AbstractRouter):
+    def __init__(self):
+        super().__init__(
+            ReimbursementService(),
+            ReimbursementIn,
+            Partial[ReimbursementIn],
+            ReimbursementOut,
+        )
