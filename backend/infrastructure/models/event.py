@@ -17,5 +17,6 @@ class Event(BaseModel, Base):
     budget = Column(Integer, nullable=False)
     is_active = Column(Boolean, nullable=False)
     created_at = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+    starts_at = Column(DateTime)
     ends_at = Column(DateTime)
-    currency = Column(Integer, nullable=False)
+    currency = Column(String, nullable=False)
