@@ -29,11 +29,14 @@ class ReimbursementRepository(AbstractRepository):
             # TODO: Calculate the total of the reimbursement, converting the amount to the event currency.
             result.append(
                 {
-                    "reimbursement_id": reimbursement.id,
-                    "event_id": event.id,
+                    "id": reimbursement.id,
+                    "user_id": reimbursement.user_id,
+                    "event_id": reimbursement.event_id,
+                    "status_id": reimbursement.status_id,
+                    "description": reimbursement.description,
                     "username": user.username,
-                    "event": event.title,
                     "currency": event.currency,
+                    "event": event.title,
                     "status": reimbursement_status.description,
                     "created_at": reimbursement.created_at,
                 }
